@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Enums
+enum UserRole {
+  PATIENT
+  PROFESSIONAL
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
+
+enum NotificationType {
+  CONFIRMATION
+  REMINDER
+  CANCELLATION
+}
+
+// Models
+model User {
+  id            String    @id @default(uuid()) @db.Uuid
+  authUserId    String    @unique @map("auth_user_id") @db.Uuid
+  firstName     String    @map("first_name")
+  lastName      String    @map("last_name")
+  role          UserRole
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relaciones
+  appointmentsAsPatient      Appointment[] @relation("PatientAppointments")
+  appointmentsAsProfessional Appointment[] @relation("ProfessionalAppointments")
+  availability              Availability[]
+  notifications             Notification[]
+  auditLogs                 AuditLog[]
+
+  @@map("users")
+}
+
+model Appointment {
+  id              String            @id @default(uuid()) @db.Uuid
+  patientId       String            @map("patient_id") @db.Uuid
+  professionalId  String            @map("professional_id") @db.Uuid
+  appointmentDate DateTime          @map("appointment_date")
+  status          AppointmentStatus
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  // Relaciones
+  patient         User              @relation("PatientAppointments", fields: [patientId], references: [id])
+  professional    User              @relation("ProfessionalAppointments", fields: [professionalId], references: [id])
+  notifications   Notification[]
+
+  @@map("appointments")
+}
+
+model Availability {
+  id              String    @id @default(uuid()) @db.Uuid
+  professionalId  String    @map("professional_id") @db.Uuid
+  availableDate   DateTime  @map("available_date")
+  startTime       DateTime  @map("start_time")
+  endTime         DateTime  @map("end_time")
+  isBooked        Boolean   @default(false) @map("is_booked")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relaciones
+  professional    User      @relation(fields: [professionalId], references: [id])
+
+  @@map("availability")
+}
+
+model Notification {
+  id            String          @id @default(uuid()) @db.Uuid
+  userId        String          @map("user_id") @db.Uuid
+  appointmentId String          @map("appointment_id") @db.Uuid
+  type          NotificationType
+  isSent        Boolean         @default(false) @map("is_sent")
+  sentAt        DateTime?       @map("sent_at")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  // Relaciones
+  user          User            @relation(fields: [userId], references: [id])
+  appointment   Appointment     @relation(fields: [appointmentId], references: [id])
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  action    String
+  metadata  Json
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relaciones
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model Configuration {
+  id        String   @id @default(uuid()) @db.Uuid
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("configuration")
+}

@@ -1,13 +1,23 @@
 import { AppConfig } from './app-config.interface';
 import { SupabaseConfig } from './supabase-config.interface';
+import { DatabaseConfig } from './database-config.interface';
 
 /**
- * Interfaz global que define la estructura completa del archivo de configuración
+ * Interfaz que define la estructura global de la configuración
  */
 export interface Config {
-  /** Configuración de la aplicación CalenConnect API */
-  'calenconnect-api': AppConfig;
+  /**
+   * Configuración de la aplicación
+   */
+  app: AppConfig;
 
-  /** Configuración de conexión a Supabase */
+  /**
+   * Configuración de Supabase
+   */
   supabase: SupabaseConfig;
+
+  /**
+   * Configuración de la base de datos
+   */
+  database: DatabaseConfig;
 }
