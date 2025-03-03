@@ -23,6 +23,12 @@
       ],
       "@libs/infrastructure/*": [
         "libs/infrastructure/src/*"
+      ],
+      "@libs/config": [
+        "libs/config"
+      ],
+      "@libs/config/*": [
+        "libs/config/*"
       ]
     }
   }

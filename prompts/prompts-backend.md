@@ -894,9 +894,278 @@ La estructura propuesta facilita la escalabilidad de varias maneras:
 
 Esta estructura propuesta proporciona un equilibrio óptimo entre modularidad, escalabilidad y practicidad, adhiriéndose a las mejores prácticas de NestJS y los principios de diseño de software modernos.
 
+---
+
+#### 🔹 Usuario: 
+
+La nueva estructura del proyecto es **más ordenada y modular**, lo que facilita su construcción progresiva hasta la entrega final.  
+
+Sin embargo, avanzaremos de forma **iterativa**, dividiendo el proceso en **fases y subfases**. Antes de comenzar a crear carpetas y archivos, es necesario **definir claramente las subfases de esta primera etapa**, basándonos en la nueva estructura establecida.  
+
+### **📌 Tareas a realizar:**  
+1. **Definir las subfases de la primera etapa**  
+   - Desglosa las tareas en pasos más pequeños y organizados.  
+   - Justifica la necesidad de cada subfase en función de la arquitectura propuesta.  
+
+2. **Explicar cada subfase en detalle**  
+   - Describe **qué se hará** en cada una y **por qué es importante**.  
+   - Asegura que cada paso contribuya a una construcción iterativa e incremental del proyecto.  
+
+3. **Primer cambio a realizar:**  
+   - La nueva estructura de carpetas ha modificado la forma en que actualmente está organizada **`  @config-manager  `**.  
+   - Este será **el primer cambio a realizar**, asegurando que se adapte correctamente a la nueva arquitectura del sistema.  
+
+Una vez establecidas y aprobadas las subfases, procederemos con la creación de los directorios y archivos necesarios.  
 
 
 
+---
+
+#### 🔹 IA:
+
+<think>
+Necesito definir subfases claras para la primera etapa del proyecto, enfocándome especialmente en la reorganización del `config-manager` actual. Veo que hay una carpeta `/libs/infrastructure/src/config-manager` con subcarpetas `/interfaces` y `/config`, así como un archivo `config-manager.module.ts`. 
+
+Debo definir cómo reorganizar esto dentro de la nueva estructura propuesta, donde habíamos sugerido que la configuración se maneje en `/libs/config`. También necesito dividir la primera fase en subfases lógicas y progresivas.
+</think>
+
+# Subfases de la Primera Etapa: Estructuración y Configuración Base
+
+## Definición de Subfases
+
+Basándome en la nueva estructura y considerando que estamos en la primera etapa del proyecto, propongo las siguientes subfases que nos permitirán avanzar de manera organizada e incremental:
+
+### 1️⃣ Subfase 1: Reorganización del Sistema de Configuración
+
+**Objetivo**: Migrar el actual `config-manager` a la nueva estructura modular en `/libs/config`.
+
+**Tareas principales**:
+- Crear la estructura base de directorios para `/libs/config`
+- Migrar y refactorizar el contenido de `/libs/infrastructure/src/config-manager`
+- Implementar un servicio de carga y acceso a la configuración basado en `config.yaml`
+
+### 2️⃣ Subfase 2: Implementación de la Estructura Core
+
+**Objetivo**: Establecer los componentes fundamentales de la aplicación en `/libs/core`.
+
+**Tareas principales**:
+- Crear la estructura base para `/libs/core`
+- Implementar guards de autenticación y autorización
+- Crear decoradores, interceptores y filtros esenciales
+- Definir interfaces compartidas básicas
+
+### 3️⃣ Subfase 3: Configuración de Infraestructura Base
+
+**Objetivo**: Reorganizar y ampliar los componentes de infraestructura en `/libs/infrastructure`.
+
+**Tareas principales**:
+- Reordenar los componentes existentes en infraestructura
+- Implementar conexión con Supabase/Prisma
+- Configurar sistema de logging
+- Establecer estructura para servicios externos
+
+### 4️⃣ Subfase 4: Implementación del Sistema de Eventos de Dominio
+
+**Objetivo**: Crear el bus de eventos para comunicación entre módulos en `/libs/domain-events`.
+
+**Tareas principales**:
+- Establecer la estructura base para `/libs/domain-events`
+- Implementar el servicio de bus de eventos
+- Crear decoradores para suscripción a eventos
+- Definir interfaces para eventos de dominio
+
+### 5️⃣ Subfase 5: Estructura de Utilidades Compartidas
+
+**Objetivo**: Implementar componentes de uso común en `/libs/shared`.
+
+**Tareas principales**:
+- Crear la estructura base para `/libs/shared`
+- Implementar funciones de utilidad comunes
+- Definir constantes y tipos compartidos
+- Crear clases de error personalizadas
+
+### 6️⃣ Subfase 6: Restructuración de la Aplicación Principal
+
+**Objetivo**: Reorganizar `/apps/calenconnect-api` para que utilice los nuevos módulos compartidos.
+
+**Tareas principales**:
+- Actualizar la estructura de directorios de la aplicación principal
+- Integrar los módulos de `libs` en `app.module.ts`
+- Refactorizar los controladores existentes para usar la nueva estructura
+- Configurar archivo main.ts para usar la nueva configuración
+
+## Explicación Detallada de Cada Subfase
+
+### Subfase 1: Reorganización del Sistema de Configuración
+
+**¿Qué se hará?**
+En esta subfase migraremos el actual `config-manager` a un módulo más potente y centralizado en `/libs/config`. Esto implica crear la estructura de directorios necesaria, mover y adaptar las interfaces existentes, e implementar un servicio para cargar el archivo `config.yaml` y proporcionar acceso tipado a sus valores.
+
+**¿Por qué es importante?**
+La configuración es un pilar fundamental para cualquier aplicación. Establecer un sistema robusto de configuración desde el principio nos permitirá:
+- Centralizar todos los parámetros configurables en un solo lugar
+- Validar la configuración al inicio de la aplicación
+- Cambiar la configuración según el entorno (desarrollo, prueba, producción)
+- Facilitar el acceso tipado a la configuración desde cualquier parte de la aplicación
+
+Esta subfase es prioritaria porque las demás partes del sistema dependerán de ella para acceder a sus configuraciones específicas.
+
+### Subfase 2: Implementación de la Estructura Core
+
+**¿Qué se hará?**
+Crearemos el módulo `/libs/core` que contendrá los componentes fundamentales como guards, decoradores, interceptores y filtros. Implementaremos específicamente guards para reemplazar los actuales middlewares, siguiendo la recomendación de usar guards como mecanismo principal de protección de rutas en NestJS.
+
+**¿Por qué es importante?**
+Los componentes core proporcionan funcionalidades transversales que se utilizan en toda la aplicación:
+- Los guards controlan el acceso a los endpoints, siendo cruciales para la seguridad
+- Los interceptores permiten modificar las respuestas y solicitudes de manera global
+- Los filtros manejan excepciones de manera consistente
+- Los decoradores facilitan la reutilización de código
+
+Implementar estos componentes temprano nos permitirá asegurar que la aplicación siga un patrón consistente en términos de seguridad, manejo de errores y comportamiento general.
+
+### Subfase 3: Configuración de Infraestructura Base
+
+**¿Qué se hará?**
+Reorganizaremos y ampliaremos los componentes en `/libs/infrastructure` para encapsular toda la lógica relacionada con servicios externos, bases de datos y otros aspectos técnicos. Esto incluye la configuración de conexiones a Supabase y Prisma, así como la implementación de un sistema de logging.
+
+**¿Por qué es importante?**
+La infraestructura proporciona los cimientos técnicos sobre los que se construye la aplicación:
+- La conexión a bases de datos es esencial para la persistencia de datos
+- Los servicios de logging son cruciales para la depuración y monitoreo
+- Los clientes de servicios externos permiten integrar funcionalidades de terceros
+
+Aislar estos componentes en módulos dedicados permite cambiarlos o actualizarlos sin afectar a la lógica de negocio, siguiendo el principio de inversión de dependencias.
+
+### Subfase 4: Implementación del Sistema de Eventos de Dominio
+
+**¿Qué se hará?**
+Implementaremos un sistema de eventos de dominio en `/libs/domain-events` que permitirá la comunicación desacoplada entre módulos. Esto incluye un bus de eventos, decoradores para suscripción, y las interfaces necesarias para definir eventos.
+
+**¿Por qué es importante?**
+Un sistema de eventos de dominio facilita:
+- La comunicación entre módulos sin acoplamiento directo
+- La implementación de patrones como CQRS y Event Sourcing
+- La escalabilidad mediante procesamiento asíncrono
+- La extensibilidad, permitiendo añadir nuevos suscriptores sin modificar el código existente
+
+Este enfoque es especialmente valioso para las notificaciones en tiempo real y las operaciones asíncronas requeridas por el proyecto, como las notificaciones por correo electrónico.
+
+### Subfase 5: Estructura de Utilidades Compartidas
+
+**¿Qué se hará?**
+Crearemos un módulo de utilidades compartidas en `/libs/shared` que contendrá funciones auxiliares, constantes, tipos personalizados y clases de error comunes a toda la aplicación.
+
+**¿Por qué es importante?**
+Las utilidades compartidas:
+- Evitan la duplicación de código en diferentes partes de la aplicación
+- Garantizan consistencia en operaciones comunes
+- Facilitan el mantenimiento al centralizar la lógica auxiliar
+- Proporcionan una base común para el manejo de errores y validaciones
+
+Estas herramientas comunes agilizarán el desarrollo de los módulos de dominio al proporcionar soluciones reutilizables para problemas recurrentes.
+
+### Subfase 6: Restructuración de la Aplicación Principal
+
+**¿Qué se hará?**
+Reorganizaremos la aplicación principal en `/apps/calenconnect-api` para integrar y utilizar todos los módulos compartidos implementados en las subfases anteriores. Esto implica actualizar la estructura de directorios, refactorizar los controladores existentes y configurar el punto de entrada de la aplicación.
+
+**¿Por qué es importante?**
+Esta subfase:
+- Conecta todos los componentes desarrollados en las subfases anteriores
+- Establece la estructura para los módulos de dominio específicos
+- Prepara la aplicación para la implementación de la lógica de negocio
+- Asegura que la arquitectura propuesta se refleje correctamente en la aplicación
+
+Es el paso final de la primera etapa, que prepara el terreno para el desarrollo de las funcionalidades específicas del negocio en etapas posteriores.
+
+## Primer Cambio a Realizar: Reorganización del Config Manager
+
+El primer cambio concreto a realizar será la migración y adaptación del `config-manager` actual a la nueva estructura. Esto implica:
+
+1. **Análisis de la estructura actual**: Examinar el contenido de `/libs/infrastructure/src/config-manager`, incluyendo sus interfaces y el módulo.
+
+2. **Creación de la nueva estructura**: Establecer los directorios `/libs/config/src` con sus correspondientes subcarpetas.
+
+3. **Migración de módulos**: Refactorizar el `config-manager.module.ts` actual para adaptarlo a la nueva ubicación y aprovechar las ventajas de la nueva arquitectura.
+
+4. **Implementación del servicio de configuración**: Crear un nuevo `config.service.ts` que aproveche el archivo `config.yaml` y proporcione acceso tipado a sus valores.
+
+5. **Redefinir interfaces**: Migrar y posiblemente mejorar las interfaces existentes para asegurar que la configuración sea tipada y validada.
+
+6. **Actualizar dependencias**: Asegurar que las importaciones en cualquier archivo que use el antiguo `config-manager` se actualicen para usar el nuevo módulo.
+
+Esta reorganización establecerá una base sólida para todo el sistema de configuración, que será fundamental para el resto de los componentes de la aplicación.
+
+
+---
+
+#### 🔹 Usuario: 
+
+Trabajaremos en cada subfase de forma **iterativa**, asegurando un proceso estructurado y controlado.  
+
+### **📌 Proceso de trabajo:**  
+1. **Revisión previa:** Antes de aplicar cualquier cambio, se evaluará la propuesta.  
+2. **Aprobación:** Si el cambio es válido, se procederá con su implementación.  
+3. **Iteración continua:** Una vez aprobada una subfase, avanzaremos a la siguiente, hasta completar toda la primera fase del proyecto.  
+
+Este enfoque garantiza un desarrollo progresivo, validando cada paso antes de continuar.  
+
+
+---
+
+#### 🔹 IA:
+
+<think>
+El usuario está confirmando el enfoque iterativo para el desarrollo del proyecto a través de las subfases propuestas. No está pidiendo ninguna información adicional ni solicitando crear algún código en este momento - simplemente está estableciendo el proceso de trabajo que seguirán:
+
+1. Revisión previa de los cambios propuestos
+2. Aprobación de estos cambios
+3. Iteración continua a través de las subfases
+
+Debo reconocer este enfoque y mostrar acuerdo con esta metodología, explicando los beneficios de trabajar de esta manera. No necesito proponer nuevos cambios en este momento, ya que el usuario solo está confirmando el método de trabajo.
+</think>
+
+# Enfoque Iterativo para el Desarrollo del Proyecto
+
+Estoy de acuerdo con este enfoque iterativo y estructurado. Trabajar de manera progresiva a través de las subfases definidas nos permitirá construir una base sólida para el proyecto, minimizando riesgos y asegurando que cada componente se integre correctamente con el resto del sistema.
+
+## Beneficios de este Proceso de Trabajo
+
+### Para la Calidad del Código
+- **Revisión previa**: Permite identificar posibles problemas o mejoras antes de implementar los cambios
+- **Reducción de deuda técnica**: Al validar cada paso, evitamos acumular problemas que serían costosos de resolver más adelante
+- **Coherencia arquitectónica**: Aseguramos que todos los cambios sigan los principios de diseño establecidos
+
+### Para la Gestión del Proyecto
+- **Control del progreso**: Facilita el seguimiento del avance del proyecto mediante hitos claros y definidos
+- **Identificación temprana de obstáculos**: Permite detectar y abordar desafíos antes de que se conviertan en problemas mayores
+- **Flexibilidad para ajustes**: La estructura por subfases permite realizar modificaciones al plan si se identifican necesidades adicionales
+
+### Para el Equipo de Desarrollo
+- **Claridad en las tareas**: Cada miembro del equipo comprende exactamente qué debe hacer y por qué
+- **Aprendizaje progresivo**: Permite familiarizarse con la arquitectura del sistema de manera gradual
+- **Motivación por logros incrementales**: Completar cada subfase proporciona un sentido de avance constante
+
+## Próximos Pasos
+
+Estamos listos para comenzar con la primera subfase: la reorganización del sistema de configuración. Esto implicará:
+
+1. Analizar en detalle la estructura actual de `config-manager`
+2. Crear la nueva estructura en `/libs/config`
+3. Implementar el servicio de configuración para manejar `config.yaml`
+4. Migrar las interfaces y componentes existentes
+5. Actualizar las referencias en el resto del código
+
+Una vez que este cambio sea revisado y aprobado, procederemos con la siguiente subfase, siguiendo el proceso iterativo establecido hasta completar toda la primera fase del proyecto.
+
+¿Desea que comencemos con el análisis detallado del `config-manager` actual para iniciar la primera subfase?
+
+---
+
+## 📌 Nota:
+
+En este punto, se utiliza la opción **Agent** de cursor, la cual facilita la creación de la estructura de carpetas y archivos para el módulo **"config"**, ubicado dentro de la carpeta **`libs`**.
 
 ---
 
@@ -916,6 +1185,17 @@ Esta estructura propuesta proporciona un equilibrio óptimo entre modularidad, e
 ---
 
 #### 🔹 IA:
+
+
+---
+
+#### 🔹 Usuario: 
+
+
+---
+
+#### 🔹 IA:
+
 
 
 

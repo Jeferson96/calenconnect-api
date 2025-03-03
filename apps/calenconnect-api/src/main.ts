@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { CalenconnectApiConfig } from '@libs/infrastructure/config-manager/interfaces/calenconnect-api.config';
+import { ConfigService } from '@libs/config';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
@@ -10,18 +9,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = app.get(ConfigService);
-  const calenconnectApiConfig: CalenconnectApiConfig =
-    config.get<CalenconnectApiConfig>('calenconnect-api')!;
+  const appConfig = config.getAppConfig();
 
-  if (!calenconnectApiConfig) {
-    logger.error('Calenconnect API configuration not found');
+  if (!appConfig) {
+    logger.error('Configuración de CalenConnect API no encontrada');
     process.exit(1);
   }
 
-  const PORT = calenconnectApiConfig?.port || 3000;
+  const PORT = appConfig.port || 3000;
 
   await app.listen(PORT);
 
-  logger.log(`Calenconnect API is running on port ${PORT}`);
+  logger.log(`CalenConnect API está ejecutándose en el puerto ${PORT}`);
 }
 bootstrap();

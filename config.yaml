@@ -1,8 +1,10 @@
-# Global configuration
+# Configuración para CalenConnect API
+
+# Configuración de la aplicación
 calenconnect-api:
     port: 3001
 
-# Supabase configuration
+# Configuración de conexión a Supabase
 supabase:
-    url: 
-    key:
+    url: "https://example-supabase-url.supabase.co"
+    key: "example-supabase-key"
