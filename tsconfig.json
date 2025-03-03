@@ -29,6 +29,12 @@
       ],
       "@libs/config/*": [
         "libs/config/*"
+      ],
+      "@libs/common": [
+        "libs/common"
+      ],
+      "@libs/common/*": [
+        "libs/common/*"
       ]
     }
   }
