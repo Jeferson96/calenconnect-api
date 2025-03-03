@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/calenconnect-core/tsconfig.app.json"
       }
+    },
+    "infrastructure": {
+      "type": "library",
+      "root": "libs/infrastructure",
+      "entryFile": "index",
+      "sourceRoot": "libs/infrastructure/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/infrastructure/tsconfig.lib.json"
+      }
     }
   }
 }

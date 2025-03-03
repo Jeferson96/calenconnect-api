@@ -17,6 +17,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@libs/infrastructure": [
+        "libs/infrastructure/src"
+      ],
+      "@libs/infrastructure/*": [
+        "libs/infrastructure/src/*"
+      ]
+    }
   }
 }
