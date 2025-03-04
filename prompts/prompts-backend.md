@@ -1165,7 +1165,7 @@ Una vez que este cambio sea revisado y aprobado, procederemos con la siguiente s
 
 ## 📌 Nota:
 
-En este punto, se utiliza la opción **Agent** de cursor, la cual facilita la creación de la estructura de carpetas y archivos para el módulo **"config"**, ubicado dentro de la carpeta **`libs`**.
+En este punto, se utiliza la opción **Agent** de cursor.
 
 ---
 
@@ -1230,7 +1230,7 @@ El siguiente paso lógico sería implementar un sistema de guardias y filtros pa
 
 ## 📌 Nota:
 
-En este punto, se utiliza la opción **Agent** de cursor, la cual facilita la creación de la estructura de carpetas y archivos para el módulo **"config"**, ubicado dentro de la carpeta **`libs`**.
+En este punto, se utiliza la opción **Agent** de cursor.
 
 ---
 
@@ -1323,12 +1323,161 @@ La creación del modelo en Prisma debe realizarse como parte de la **Subfase 1.3
 
 ---
 
+## 📌 Nota:
+
+En este punto, se utiliza la opción **Agent** de cursor.
+
+---
+
 #### 🔹 Usuario: 
+
+Genera un documento detallado que contenga todas las fases planteadas desde el inicio del proyecto.  
+
+**Requisitos:**  
+- Extrae la información de las historias de chat contenidas en el documento @prompts-backend.md .  
+- Cada fase debe presentarse exactamente como fue planteada originalmente.  
+- Asegúrate de que la descripción de cada fase sea clara, bien estructurada y detallada.  
+- La información debe estar organizada de manera formal, ya que será utilizada como documentación oficial.  
+
+**Formato esperado:**  
+- Usa títulos y subtítulos para cada fase.  
+- Incluye descripciones detalladas con viñetas o párrafos bien estructurados.  
+- Si hay cambios o iteraciones en las fases, menciónalos indicando su evolución.  
+
+
 
 
 ---
 
 #### 🔹 IA:
+
+# 📋 Documentación Oficial del Proyecto CalenConnect API
+
+## 🎯 Fases del Proyecto
+
+### 1. Estructuración y Configuración Base
+
+#### 1.1 Restructuración del Sistema de Configuración
+- **Objetivo**: Implementar un sistema robusto y tipado para la gestión de configuraciones.
+- **Componentes**:
+  - Sistema centralizado de configuración
+  - Carga de configuraciones desde archivos YAML
+  - Interfaces tipadas para cada sección de configuración
+  - Enums para entornos y constantes
+  - Validación de configuraciones al inicio
+
+#### 1.2 Implementación de Filtros y Guards Globales
+- **Objetivo**: Establecer un sistema de manejo de errores y control de acceso consistente.
+- **Componentes**:
+  - Filtros globales para manejo de excepciones
+  - Interceptores para transformación de respuestas
+  - Guards para autenticación y autorización
+  - Sistema de roles y permisos
+
+#### 1.3 Base de Datos y Repositorios
+- **Objetivo**: Implementar una capa de acceso a datos robusta y tipada.
+- **Componentes**:
+  - Esquema Prisma con modelos y relaciones
+  - Repositorios base con operaciones CRUD
+  - Repositorios específicos por entidad
+  - Validaciones y reglas de negocio en repositorios
+
+#### 1.4 Servicios de Dominio
+- **Objetivo**: Implementar la lógica de negocio principal de la aplicación.
+- **Componentes**:
+  - Servicios para cada entidad principal
+  - Validaciones de negocio
+  - Reglas de negocio específicas
+  - Integración entre servicios
+
+### 2. Implementación de Controladores y DTOs
+
+#### 2.1 Implementación de DTOs
+- **Objetivo**: Definir estructuras de datos para entrada/salida de la API.
+- **Componentes**:
+  - DTOs para creación de entidades
+  - DTOs para actualización
+  - DTOs para respuestas
+  - Validaciones con class-validator
+  - Transformaciones de datos
+
+#### 2.2 Implementación de Controladores
+- **Objetivo**: Exponer endpoints de la API con validaciones y transformaciones.
+- **Componentes**:
+  - Controladores por entidad
+  - Endpoints CRUD
+  - Endpoints específicos de negocio
+  - Manejo de parámetros y queries
+
+### 3. Sistema de Notificaciones
+
+#### 3.1 Servicio de Correo Electrónico
+- **Objetivo**: Implementar un sistema robusto de envío de correos.
+- **Componentes**:
+  - Integración con proveedor de correo
+  - Sistema de colas para envíos
+  - Manejo de errores y reintentos
+  - Monitoreo de envíos
+
+#### 3.2 Plantillas de Correo
+- **Objetivo**: Crear plantillas reutilizables para diferentes tipos de notificaciones.
+- **Componentes**:
+  - Plantillas para recordatorios de citas
+  - Plantillas para confirmaciones
+  - Plantillas para cancelaciones
+  - Sistema de variables dinámicas
+
+### 4. Pruebas y Calidad
+
+#### 4.1 Pruebas Unitarias
+- **Objetivo**: Asegurar la calidad del código a nivel de componentes.
+- **Componentes**:
+  - Pruebas de servicios
+  - Pruebas de repositorios
+  - Pruebas de utilidades
+  - Cobertura de código
+
+#### 4.2 Pruebas de Integración
+- **Objetivo**: Verificar la integración entre componentes.
+- **Componentes**:
+  - Pruebas de flujos completos
+  - Pruebas de integración con base de datos
+  - Pruebas de integración con servicios externos
+  - Escenarios de error
+
+#### 4.3 Pruebas E2E
+- **Objetivo**: Validar el funcionamiento completo del sistema.
+- **Componentes**:
+  - Escenarios de usuario completos
+  - Flujos de negocio principales
+  - Casos de error y recuperación
+  - Pruebas de rendimiento básicas
+
+## 📊 Estado Actual del Proyecto
+
+### Fases Completadas ✅
+1. Restructuración del Sistema de Configuración
+2. Implementación de Filtros y Guards Globales
+3. Base de Datos y Repositorios
+4. Servicios de Dominio
+
+### Fases en Progreso 🚀
+1. Implementación de Controladores y DTOs
+
+### Fases Pendientes 📝
+1. Sistema de Notificaciones
+2. Pruebas y Calidad
+
+## 🔄 Siguiente Paso
+La siguiente fase a implementar es la de Controladores y DTOs, que incluirá:
+- Creación de DTOs para todas las entidades
+- Implementación de controladores con endpoints CRUD
+- Integración con los servicios de dominio existentes
+- Validaciones y transformaciones de datos
+
+¿Desea proceder con la implementación de la siguiente fase?
+
+
 
 
 ---
