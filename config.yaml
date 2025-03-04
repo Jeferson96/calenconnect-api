@@ -1,0 +1,16 @@
+# Configuración para CalenConnect API
+
+# Configuración de la aplicación
+calenconnect-api:
+    port: 3000
+
+# Configuración de conexión a Supabase
+supabase:
+    # URL del proyecto de Supabase
+    url: "https://dvbqvvgltduwpmkwhlcf.supabase.co"
+    # Clave anónima de Supabase
+    key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2YnF2dmdsdGR1d3Bta3dobGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5MzcyMTMsImV4cCI6MjA1NjUxMzIxM30.v3aGxMCUXIaVpXC_9TzTPE_jnnLPNfInhE8UDYFhX14"
+
+database:
+    # URL de conexión a PostgreSQL
+    url: "postgresql://user:password@localhost:5432/calenconnect?schema=public"

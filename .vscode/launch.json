@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug calenconnect-api",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "start:debug"],
+        "args": ["calenconnect-api"],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal",
+        "protocol": "inspector",
+        "restart": true,
+        "autoAttachChildProcesses": true,
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "outFiles": [
+          "${workspaceFolder}/dist/**/*.js"
+        ],
+        "env": {
+          "NODE_ENV": "development"
+        }
+      }
+    ],
+    
+    "compounds": [
+      {
+        "name": "Debug All Apps",
+        "configurations": [
+          "Debug calenconnect-api"
+        ]
+      }
+    ]
+  }

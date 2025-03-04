@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/calenconnect-api/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/calenconnect-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/calenconnect-api",
+  "projects": {
+    "calenconnect-api": {
+      "type": "application",
+      "root": "apps/calenconnect-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/calenconnect-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/calenconnect-api/tsconfig.app.json"
+      }
+    },
+    "calenconnect-core": {
+      "type": "application",
+      "root": "apps/calenconnect-core",
+      "entryFile": "main",
+      "sourceRoot": "apps/calenconnect-core/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/calenconnect-core/tsconfig.app.json"
+      }
+    },
+    "infrastructure": {
+      "type": "library",
+      "root": "libs/infrastructure",
+      "entryFile": "index",
+      "sourceRoot": "libs/infrastructure/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/infrastructure/tsconfig.lib.json"
+      }
+    }
+  }
+}
