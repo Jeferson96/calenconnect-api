@@ -1,0 +1,11 @@
+# Ejemplo de archivo de configuración para CalenConnect API
+# Este archivo debe copiarse y ajustarse según el entorno
+
+# Configuración de la aplicación CalenConnect API
+calenconnect-api:
+  port: 3000
+
+# Configuración de conexión a Supabase
+supabase:
+  url: "https://your-supabase-url.supabase.co"
+  key: "your-supabase-key" 
