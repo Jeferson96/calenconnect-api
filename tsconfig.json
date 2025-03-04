@@ -18,6 +18,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@libs/*": ["libs/*"],
       "@libs/infrastructure": [
         "libs/infrastructure/src"
       ],
@@ -35,6 +36,18 @@
       ],
       "@libs/common/*": [
         "libs/common/*"
+      ],
+      "@libs/database": [
+        "libs/database/src"
+      ],
+      "@libs/database/*": [
+        "libs/database/src/*"
+      ],
+      "@libs/domain": [
+        "libs/domain/src"
+      ],
+      "@libs/domain/*": [
+        "libs/domain/src/*"
       ]
     }
   }
