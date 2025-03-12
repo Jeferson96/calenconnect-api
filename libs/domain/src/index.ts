@@ -5,3 +5,7 @@ export * from './interfaces/appointment/update-appointment.interface';
 export * from './interfaces/availability/create-availability.interface';
 export * from './interfaces/availability/update-availability.interface';
 export * from './interfaces/notification/create-notification.interface';
+export * from './services/user.service';
+export * from './services/appointment.service';
+export * from './services/availability.service';
+export * from './services/notification.service';

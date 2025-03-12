@@ -1,36 +1,35 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Request, Response } from 'express';
-
-export interface ResponseFormat<T> {
-  data: T;
-  meta?: Record<string, unknown>;
-  message?: string;
-  statusCode: number;
-  timestamp: string;
-  path: string;
-  method: string;
-}
+import { Response } from 'express';
+import { ApiResponse } from '../interfaces/api-response.interface';
 
 /**
  * Interceptor para transformar todas las respuestas exitosas en un formato estándar
  */
 @Injectable()
-export class ResponseTransformInterceptor<T> implements NestInterceptor<T, ResponseFormat<T>> {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseFormat<T>> {
-    const request = context.switchToHttp().getRequest<Request>();
+export class ResponseTransformInterceptor<T> implements NestInterceptor<T, ApiResponse<T>> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<ApiResponse<T>> {
     const response = context.switchToHttp().getResponse<Response>();
-    const statusCode = response.statusCode;
 
     return next.handle().pipe(
       map((data: T) => ({
+        success: true,
+        message: this.getDefaultMessage(response.statusCode),
         data,
-        statusCode,
         timestamp: new Date().toISOString(),
-        path: request.url,
-        method: request.method,
       })),
     );
+  }
+
+  private getDefaultMessage(statusCode: number): string {
+    switch (statusCode) {
+      case 200:
+        return 'Operación realizada con éxito';
+      case 201:
+        return 'Recurso creado con éxito';
+      default:
+        return 'Solicitud procesada correctamente';
+    }
   }
 }
