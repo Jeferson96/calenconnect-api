@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@libs/config';
 import { CommonModule } from '@libs/common';
 import { DomainModule } from '@libs/domain';
@@ -20,7 +18,5 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     AvailabilityModule,
     AppointmentModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

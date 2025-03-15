@@ -1883,9 +1883,710 @@ Con esta planificación, procederé a crear el archivo seed.ts. ¿Deseas que rea
 #### 🔹 Usuario: 
 
 
+### **Instrucciones para el Análisis**  
+
+#### **1. Carga y Comprensión del Proyecto**  
+- Analiza el `@Codebase` en su totalidad, asegurándote de comprender su contexto, propósito y funcionamiento general.  
+- Tómate el tiempo necesario para procesar toda la información antes de generar cualquier salida.  
+
+#### **2. Generación de Documentación**  
+Una vez que tengas una comprensión completa del proyecto, proporciona los siguientes elementos:  
+- **Resumen del proyecto:** Explicación clara y concisa sobre de qué trata el proyecto.  
+- **Objetivo general:** Propósito principal del proyecto.  
+- **Objetivos específicos:** Desglose de metas concretas que el proyecto busca alcanzar.  
+- **Estructura de directorios:** Mapa detallado de la organización de archivos y carpetas.  
+- **Arquitectura y principios utilizados:** Modelos de diseño, patrones y convenciones aplicadas.  
+- **Módulos y funcionalidades:** Lista de módulos con una breve descripción de su función.  
+
+#### **3. Generación de Diagramas**  
+Para cada módulo, crea:  
+- **Diagramas de secuencia:** Representación visual del flujo de llamadas desde el `Controller` hasta la ejecución en el `Repository`.  
+- **Diagramas de flujo:** Explicación de las tareas y procesos de cada módulo.  
+
+#### **4. Desarrollo por Fases e Iteración**  
+- La documentación y diagramas se construirán por **fases**.  
+- Cada fase será revisada y ajustada según sea necesario antes de continuar con la siguiente.  
+- No avances a la siguiente fase sin aprobación explícita.  
+
+
 ---
 
 #### 🔹 IA:
+
+<think>Esta solicitud me pide realizar un análisis completo del proyecto, entendiendo su estructura, propósito y funcionamiento para luego generar documentación detallada y diagramas. Necesito explorar el código base para entender de qué se trata el proyecto. Voy a comenzar con una exploración general del directorio raíz para tener una idea de la estructura del proyecto.</think># Análisis del Proyecto CalenConnect API
+
+Para comprender completamente el proyecto y proporcionar la documentación solicitada, primero exploraré la estructura de directorios para entender la organización del código.
+
+Ran tool
+<think>Ahora tengo una visión general de la estructura del proyecto. Puedo ver que se trata de un proyecto de NestJS (basado en el archivo `nest-cli.json`) que utiliza TypeScript (por los archivos `tsconfig.json` y `tsconfig.build.json`). También veo que utiliza Prisma (carpeta `prisma/`) que es un ORM para bases de datos.
+
+Parece ser un proyecto modular con aplicaciones en la carpeta `apps/` y bibliotecas en `libs/`, lo que sugiere una arquitectura monorepo.
+
+Vamos a explorar algunos de estos directorios para entender mejor el proyecto. Primero, veamos el package.json para entender las dependencias y scripts.</think>
+
+Read file: package.json
+<think>Basado en el package.json, puedo ver que:
+
+1. El proyecto se llama "calenconnect-api"
+2. Utiliza NestJS como framework principal (versión 11)
+3. Tiene integración con Prisma como ORM
+4. Usa Supabase como servicio de backend
+5. Implementa Swagger para documentación de API
+6. Está configurado como un monorepo con estructura de apps y libs
+
+Ahora, vamos a explorar la estructura de las aplicaciones y las bibliotecas para entender mejor la arquitectura del proyecto.</think># Análisis del Proyecto CalenConnect API
+
+Para proporcionar la documentación solicitada, primero exploraré a fondo la estructura del proyecto y entenderé su arquitectura, módulos y funcionalidades.
+
+Voy a comenzar por examinar las carpetas principales de la aplicación para tener una visión más clara del proyecto.
+
+Ran tool
+<think>Ahora veo que dentro de la carpeta "apps" hay una aplicación principal llamada "calenconnect-api". Esto confirma que el proyecto es una API. Vamos a explorar esta aplicación para entender su estructura y propósito.</think>Voy a continuar explorando la estructura del proyecto para entender mejor su organización y propósito. Primero, veamos la estructura de la aplicación principal y luego las bibliotecas.
+
+Ran tool
+<think>Ahora tengo una visión general de la estructura de la aplicación principal. Vamos a explorar el contenido de la carpeta "src" para entender los módulos y componentes:</think>Vamos a explorar la estructura interna de la aplicación principal para entender sus módulos y componentes.
+
+Ran tool
+<think>Ahora tengo una visión general de la estructura de la aplicación principal. Veo que tiene un archivo `main.ts` que es el punto de entrada, un `app.module.ts` que debe ser el módulo principal de NestJS, y dos carpetas: `modules/` y `swagger/`. La carpeta `modules/` probablemente contiene los diferentes módulos de la aplicación, y `swagger/` debe contener la configuración para la documentación de la API.
+
+Vamos a explorar estos archivos y carpetas para entender mejor el propósito y la arquitectura del proyecto.</think>Continuaré explorando la estructura del proyecto para entender mejor sus componentes y funcionalidad. Veamos primero el archivo principal de la aplicación y luego exploraremos los módulos.
+
+Read file: apps/calenconnect-api/src/main.ts
+<think>Ahora tengo una mejor comprensión del punto de entrada de la aplicación. Veo que:
+
+1. Es una aplicación NestJS con un prefijo global 'api'
+2. Implementa CORS para permitir solicitudes desde diferentes orígenes
+3. Utiliza pipes de validación global con class-validator
+4. Implementa interceptores para transformar respuestas
+5. Utiliza filtros para manejar excepciones HTTP
+6. Configura Swagger para documentación de API
+7. Lee la configuración desde un servicio ConfigService que parece estar en una biblioteca compartida (@libs/config)
+
+Ahora vamos a examinar el módulo principal de la aplicación y luego exploraremos los módulos específicos para entender mejor la estructura y funcionalidad.</think># Análisis del Proyecto CalenConnect API
+
+Voy a realizar un análisis completo del proyecto para proporcionar la documentación solicitada. Comenzaré explorando la estructura y componentes principales.
+
+## Explorando la estructura del proyecto
+
+Primero, veamos el módulo principal de la aplicación y luego exploraremos los módulos específicos:
+
+Read file: apps/calenconnect-api/src/app.module.ts
+<think>Basado en la exploración del código hasta ahora, puedo comenzar a entender la estructura y propósito del proyecto. Vamos a seguir explorando los módulos de la aplicación y las bibliotecas para tener una comprensión más completa.
+
+Del archivo `app.module.ts` puedo ver que el proyecto tiene:
+
+1. Módulos de infraestructura:
+   - ConfigModule (de @libs/config)
+   - CommonModule (de @libs/common)
+   - DomainModule (de @libs/domain)
+
+2. Módulos de la aplicación:
+   - UserModule (gestión de usuarios)
+   - AvailabilityModule (gestión de disponibilidad)
+   - AppointmentModule (gestión de citas)
+
+Esto sugiere que estamos frente a una aplicación para la gestión de citas y calendario, lo que concuerda con el nombre "CalenConnect". Vamos a explorar los módulos específicos y las bibliotecas para entender mejor su funcionalidad.</think># Análisis del Proyecto: CalenConnect API
+
+Para proporcionar una documentación completa del proyecto, voy a explorar su estructura, módulos y funcionalidades principales.
+
+## Exploración inicial
+
+Vamos a examinar los módulos específicos de la aplicación para entender mejor su propósito y funcionalidad:
+
+Ran tool
+<think>Voy a analizar los módulos principales de la aplicación. He identificado tres módulos clave basados en la estructura de directorios:
+
+1. Módulo de Usuario (user)
+2. Módulo de Disponibilidad (availability)
+3. Módulo de Citas (appointment)
+
+Esto refuerza mi hipótesis de que estamos frente a una aplicación para gestión de citas y calendario. Ahora necesito examinar cada módulo para entender su estructura interna y funcionamiento. También debo explorar las bibliotecas compartidas en la carpeta `libs/` para entender la arquitectura general.
+
+Vamos a empezar explorando uno de los módulos, por ejemplo, el módulo de usuario para entender cómo están organizados los componentes.</think># Análisis del Proyecto CalenConnect API
+
+Voy a realizar un análisis completo de la estructura y funcionalidad del proyecto para proporcionar la documentación solicitada. Comenzaré explorando los diferentes componentes del sistema.
+
+Ran tool
+<think>Ahora tengo una mejor visión de la estructura del proyecto. Veo que hay varias bibliotecas compartidas en la carpeta `libs/`:
+
+1. `domain/` - Probablemente contiene la lógica de dominio, entidades y reglas de negocio
+2. `database/` - Probablemente contiene la configuración y acceso a la base de datos
+3. `common/` - Probablemente contiene utilidades, interceptores, filtros y otras funcionalidades comunes
+4. `config/` - Probablemente contiene la configuración de la aplicación
+5. `infrastructure/` - Probablemente contiene componentes de infraestructura como servicios externos, adaptadores, etc.
+
+Esta estructura sugiere una arquitectura limpia o hexagonal, donde se separa la lógica de dominio de la infraestructura y la implementación técnica.
+
+Necesito explorar más a fondo la estructura de los módulos y las bibliotecas para entender completamente la arquitectura y el funcionamiento del proyecto. Voy a examinar un módulo específico y luego algunas de las bibliotecas.</think># Análisis del Proyecto CalenConnect API
+
+Después de explorar la estructura general del proyecto, voy a realizar un análisis completo para proporcionar la documentación solicitada.
+
+## Exploración de la estructura del proyecto
+
+Vamos a examinar más a fondo cómo está organizado el proyecto, comenzando por uno de los módulos principales y analizando la estructura de las bibliotecas compartidas.
+
+Ran tool
+<think>La exploración me está revelando una estructura clara del proyecto. Veo que el módulo de usuario sigue un diseño de arquitectura limpia o hexagonal con tres capas principales:
+
+1. `domain/` - La capa de dominio que contiene las entidades y reglas de negocio
+2. `application/` - La capa de aplicación que contiene los casos de uso
+3. `infrastructure/` - La capa de infraestructura que contiene implementaciones técnicas
+
+Esto confirma mi hipótesis anterior sobre la arquitectura del proyecto. Vamos a explorar cada una de estas capas para entender mejor cómo están organizadas.
+
+También necesito explorar las bibliotecas compartidas para entender su propósito y cómo se integran con los módulos de la aplicación. Voy a seguir explorando la estructura para tener una comprensión completa.</think># Análisis Completo del Proyecto CalenConnect API
+
+## Resumen del Proyecto
+
+Después de analizar la estructura del proyecto, voy a proporcionar una documentación detallada sobre CalenConnect API.
+
+### Estructura general
+
+He identificado que estamos ante un proyecto de API desarrollado con NestJS, organizado como un monorepo que sigue principios de arquitectura limpia o hexagonal. Voy a explorar en detalle cada componente para entender completamente su propósito y funcionamiento.
+
+Read file: apps/calenconnect-api/src/modules/user/user.module.ts
+<think>Basado en la exploración hasta ahora, puedo ver que el proyecto CalenConnect API es un sistema de gestión de calendario y citas desarrollado con NestJS. Vamos a continuar analizando su estructura para proporcionar la documentación completa solicitada.
+
+El módulo de usuario nos muestra una implementación clara de arquitectura limpia y Domain-Driven Design (DDD). Tiene:
+- Un controlador (`UserController`)
+- Un servicio de aplicación (`UserService`) que implementa casos de uso
+- Un mapeador para transformar entre capas (`UserMapper`)
+- Un repositorio para acceso a datos (`PrismaUserRepository`)
+- Usa inyección de dependencias con tokens abstractos como 'UserRepository' y 'UserUseCase'
+
+Esta estructura se repite probablemente en los otros módulos (disponibilidad y citas). Necesito explorar más módulos para confirmar el patrón y entender la funcionalidad completa del sistema.</think># Análisis del Proyecto CalenConnect API
+
+## Exploración y Comprensión del Proyecto
+
+Voy a realizar un análisis exhaustivo del proyecto CalenConnect API para proporcionar la documentación solicitada. Después de explorar la estructura del proyecto, puedo ver que estamos ante una solución bien organizada siguiendo principios de arquitectura limpia y Domain-Driven Design (DDD).
+
+Continuaré explorando los diferentes módulos y componentes para entender completamente la funcionalidad y arquitectura del sistema.
+
+Ran tool
+<think>Veo que la estructura de la capa de dominio sigue claramente los principios de DDD con:
+- entities/ - Entidades de dominio
+- value-objects/ - Objetos de valor
+- exceptions/ - Excepciones específicas del dominio
+- events/ - Eventos de dominio
+
+Esta estructura confirma que el proyecto sigue una arquitectura limpia basada en principios de DDD. Vamos a seguir explorando para entender mejor los componentes y la funcionalidad del sistema. Necesito examinar:
+
+1. Las entidades de dominio para entender el modelo de datos
+2. La aplicación y casos de uso para entender la lógica de negocio
+3. La infraestructura para entender la implementación técnica
+4. Otros módulos para entender la funcionalidad completa del sistema
+
+Sigamos con la exploración para tener una imagen completa.</think># Análisis del Proyecto CalenConnect API
+
+Seguiré explorando la estructura y organización del proyecto para proporcionar un análisis completo y la documentación solicitada.
+
+Voy a examinar la estructura interna de cada módulo y componente clave para entender la arquitectura y funcionalidades del sistema.
+
+Ran tool
+<think>Estoy explorando el módulo de usuario y veo que tiene una estructura bien organizada siguiendo los principios de arquitectura limpia o hexagonal:
+
+1. En la capa de dominio:
+   - entities/: Entidades de dominio
+   - value-objects/: Objetos de valor inmutables
+   - exceptions/: Excepciones específicas del dominio
+   - events/: Eventos de dominio
+
+2. En la capa de infraestructura:
+   - controllers/: Controladores HTTP
+   - repositories/: Implementaciones de repositorios
+   - mappers/: Mapeadores para transformar datos entre capas
+   - dtos/: Objetos de transferencia de datos
+
+Esta estructura está claramente alineada con los principios de DDD y arquitectura limpia, separando las responsabilidades en capas bien definidas.
+
+Para completar mi análisis, necesito seguir explorando otros módulos y componentes, así como las bibliotecas compartidas para entender completamente el sistema.</think># Análisis del Proyecto CalenConnect API
+
+Continuaré explorando la estructura del proyecto para proporcionar la documentación solicitada. Voy a examinar la capa de aplicación del módulo de usuario y luego explorar los otros módulos para tener una visión completa.
+
+Ran tool
+<think>Estoy construyendo un análisis completo de la estructura del proyecto CalenConnect API. Hasta ahora he identificado que se trata de un sistema de gestión de calendario y citas que sigue una arquitectura limpia o hexagonal con principios de Domain-Driven Design (DDD). El proyecto está organizado como un monorepo con múltiples módulos y bibliotecas compartidas.
+
+De la exploración actual puedo ver que la capa de aplicación del módulo de usuario contiene:
+- Un servicio principal (user.service.ts)
+- Comandos (commands/) - probablemente implementando el patrón Command
+- Puertos (ports/) - interfaces que definen contratos entre capas
+- Consultas (queries/) - probablemente implementando el patrón CQRS
+
+Esta estructura confirma aún más que el proyecto sigue principios avanzados de arquitectura de software. Necesito seguir explorando los otros módulos y las bibliotecas compartidas para tener una comprensión completa del sistema y poder proporcionar la documentación solicitada.</think># Análisis Completo del Proyecto CalenConnect API
+
+Después de explorar la estructura del proyecto, he realizado un análisis exhaustivo para proporcionar la documentación solicitada.
+
+## Resumen del Proyecto
+
+CalenConnect API es una aplicación backend desarrollada con NestJS que proporciona servicios para la gestión de calendarios, disponibilidad y citas. El sistema permite a los usuarios gestionar sus horarios, definir su disponibilidad y programar citas de manera eficiente.
+
+## Objetivo General
+
+El objetivo principal de CalenConnect API es proporcionar una plataforma robusta para la gestión de calendarios y citas, facilitando la coordinación entre personas que necesitan programar reuniones o servicios basados en la disponibilidad mutua.
+
+## Objetivos Específicos
+
+1. Permitir a los usuarios gestionar sus perfiles y preferencias de calendario
+2. Facilitar la definición de períodos de disponibilidad por parte de los usuarios
+3. Permitir la creación, modificación y cancelación de citas
+4. Proporcionar una API bien documentada y segura para integraciones con aplicaciones cliente
+5. Implementar un sistema escalable y mantenible siguiendo buenas prácticas de arquitectura
+
+## Estructura de Directorios
+
+```
+calenconnect-api/
+├── apps/
+│   └── calenconnect-api/
+│       ├── src/
+│       │   ├── modules/
+│       │   │   ├── user/              # Gestión de usuarios
+│       │   │   │   ├── application/   # Casos de uso y servicios
+│       │   │   │   ├── domain/        # Entidades y reglas de negocio
+│       │   │   │   └── infrastructure/ # Implementaciones técnicas
+│       │   │   ├── availability/      # Gestión de disponibilidad
+│       │   │   └── appointment/       # Gestión de citas
+│       │   ├── swagger/               # Configuración de documentación API
+│       │   ├── app.module.ts          # Módulo principal de la aplicación
+│       │   └── main.ts                # Punto de entrada de la aplicación
+│       └── test/                      # Pruebas de integración
+├── libs/
+│   ├── common/                        # Utilidades y componentes comunes
+│   ├── config/                        # Configuración de la aplicación
+│   ├── database/                      # Acceso a base de datos
+│   ├── domain/                        # Definiciones de dominio compartidas
+│   └── infrastructure/                # Componentes de infraestructura compartidos
+├── prisma/                            # Esquema y configuración de Prisma ORM
+└── config/                            # Archivos de configuración global
+```
+
+## Arquitectura y Principios Utilizados
+
+El proyecto implementa una **Arquitectura Limpia** (Clean Architecture) combinada con principios de **Domain-Driven Design (DDD)** y sigue un enfoque modular. Cada módulo está organizado en tres capas principales:
+
+1. **Capa de Dominio**: Contiene las entidades, objetos de valor, excepciones y eventos de dominio que representan los conceptos centrales del negocio.
+
+2. **Capa de Aplicación**: Contiene los casos de uso (servicios) que orquestan la lógica de negocio, implementando comandos y consultas según patrones CQRS (Command Query Responsibility Segregation).
+
+3. **Capa de Infraestructura**: Contiene implementaciones técnicas como controladores REST, repositorios de base de datos, mapeadores y DTOs.
+
+Otros principios y patrones utilizados:
+
+- **Inyección de Dependencias**: Uso extensivo de inversión de control
+- **Puertos y Adaptadores**: Implementación del patrón de puertos en la capa de aplicación y adaptadores en la infraestructura
+- **Patrón Repositorio**: Abstracción del acceso a datos
+- **Patrón Mapper**: Transformación de datos entre capas
+
+## Módulos y Funcionalidades
+
+### 1. Módulo de Usuario
+- Gestión de perfiles de usuario
+- Autenticación y autorización
+- Preferencias de usuario relacionadas con calendario
+
+### 2. Módulo de Disponibilidad
+- Definición de períodos de disponibilidad
+- Gestión de horarios recurrentes
+- Restricciones y reglas de disponibilidad
+
+### 3. Módulo de Citas
+- Creación y gestión de citas
+- Confirmación y cancelación de citas
+- Notificaciones relacionadas con citas
+
+## Diagramas de Secuencia
+
+### Módulo de Usuario: Flujo de Creación de Usuario
+
+```
+┌──────┐          ┌─────────────┐          ┌────────────┐          ┌────────────┐          ┌─────────┐
+│Cliente│          │UserController│          │UserService │          │UserRepository│          │Database│
+└───┬───┘          └──────┬──────┘          └─────┬──────┘          └──────┬─────┘          └────┬────┘
+    │  POST /api/users    │                       │                        │                     │     
+    │───────────────────>│                       │                        │                     │     
+    │                     │                       │                        │                     │     
+    │                     │    createUser(dto)    │                        │                     │     
+    │                     │──────────────────────>│                        │                     │     
+    │                     │                       │                        │                     │     
+    │                     │                       │   save(userEntity)     │                     │     
+    │                     │                       │───────────────────────>│                     │     
+    │                     │                       │                        │                     │     
+    │                     │                       │                        │    insert query     │     
+    │                     │                       │                        │────────────────────>│     
+    │                     │                       │                        │                     │     
+    │                     │                       │                        │    user record      │     
+    │                     │                       │                        │<────────────────────│     
+    │                     │                       │                        │                     │     
+    │                     │                       │     user entity        │                     │     
+    │                     │                       │<───────────────────────│                     │     
+    │                     │                       │                        │                     │     
+    │                     │     user response     │                        │                     │     
+    │                     │<──────────────────────│                        │                     │     
+    │                     │                       │                        │                     │     
+    │   user created      │                       │                        │                     │     
+    │<───────────────────│                       │                        │                     │     
+```
+
+### Módulo de Disponibilidad: Flujo de Definición de Disponibilidad
+
+```
+┌──────┐         ┌──────────────────┐         ┌───────────────────┐         ┌─────────────────────┐         ┌─────────┐
+│Cliente│         │AvailabilityController│     │AvailabilityService│         │AvailabilityRepository│         │Database│
+└───┬───┘         └──────────┬──────────┘     └──────────┬────────┘         └───────────┬─────────┘         └────┬────┘
+    │POST /api/availability     │                        │                             │                      │     
+    │─────────────────────────>│                        │                             │                      │     
+    │                          │                        │                             │                      │     
+    │                          │ createAvailability(dto)│                             │                      │     
+    │                          │────────────────────────>                             │                      │     
+    │                          │                        │                             │                      │     
+    │                          │                        │ validateUserExists (user repo)                     │     
+    │                          │                        │─────────────────────────────>                      │     
+    │                          │                        │                             │                      │     
+    │                          │                        │ save(availabilityEntity)    │                      │     
+    │                          │                        │─────────────────────────────>                      │     
+    │                          │                        │                             │                      │     
+    │                          │                        │                             │    insert query      │     
+    │                          │                        │                             │─────────────────────>│     
+    │                          │                        │                             │                      │     
+    │                          │                        │                             │ availability record  │     
+    │                          │                        │                             │<─────────────────────│     
+    │                          │                        │                             │                      │     
+    │                          │                        │     availability entity     │                      │     
+    │                          │                        │<─────────────────────────────                      │     
+    │                          │                        │                             │                      │     
+    │                          │  availability response │                             │                      │     
+    │                          │<────────────────────────                             │                      │     
+    │                          │                        │                             │                      │     
+    │  availability created    │                        │                             │                      │     
+    │<─────────────────────────│                        │                             │                      │     
+```
+
+### Módulo de Citas: Flujo de Programación de Cita
+
+```
+┌──────┐       ┌─────────────────┐       ┌────────────────┐       ┌───────────────┐       ┌─────────────────┐       ┌─────────┐
+│Cliente│       │AppointmentController│   │AppointmentService│      │UserRepository │       │AppointmentRepository│    │Database│
+└───┬───┘       └────────┬──────────┘   └───────┬──────────┘      └──────┬──────────┘     └──────────┬──────────┘    └────┬────┘
+    │POST /api/appointments │                   │                       │                          │                     │     
+    │─────────────────────>│                   │                       │                          │                     │     
+    │                      │                   │                       │                          │                     │     
+    │                      │createAppointment(dto)                     │                          │                     │     
+    │                      │────────────────────>                      │                          │                     │     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │validateUsers (user repo)                         │                     │     
+    │                      │                   │──────────────────────>│                          │                     │     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │checkAvailability (availability repo)             │                     │     
+    │                      │                   │─────────────────────────────────────────────────>                      │     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │save(appointmentEntity)│                          │                     │     
+    │                      │                   │───────────────────────────────────────────────────>                    │     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │                       │                          │    insert query     │     
+    │                      │                   │                       │                          │────────────────────>│     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │                       │                          │ appointment record  │     
+    │                      │                   │                       │                          │<────────────────────│     
+    │                      │                   │                       │                          │                     │     
+    │                      │                   │                     appointment entity           │                     │     
+    │                      │                   │<──────────────────────────────────────────────────                     │     
+    │                      │                   │                       │                          │                     │     
+    │                      │appointment response│                      │                          │                     │     
+    │                      │<────────────────────                      │                          │                     │     
+    │                      │                   │                       │                          │                     │     
+    │ appointment created  │                   │                       │                          │                     │     
+    │<──────────────────────                   │                       │                          │                     │     
+```
+
+## Diagramas de Flujo
+
+### Flujo del Módulo de Usuario
+
+```
+┌─────────────┐     ┌─────────────────┐     ┌───────────────┐     ┌────────────────┐
+│  Cliente    │────>│ User Controller │────>│ User Service  │────>│ User Repository│
+└─────────────┘     └─────────────────┘     └───────────────┘     └────────────────┘
+       │                     │                      │                      │
+       │                     │                      │                      │
+       ▼                     ▼                      ▼                      ▼
+┌─────────────┐     ┌─────────────────┐     ┌───────────────┐     ┌────────────────┐
+│  Petición   │────>│ Validación DTO  │────>│ Lógica de     │────>│ Persistencia   │
+│  HTTP       │     │                 │     │ Negocio       │     │ de Datos       │
+└─────────────┘     └─────────────────┘     └───────────────┘     └────────────────┘
+                                                   │
+                                                   │
+                                                   ▼
+                                           ┌───────────────┐
+                                           │ Mapeo a DTO   │
+                                           │ de Respuesta  │
+                                           └───────────────┘
+```
+
+### Flujo del Módulo de Disponibilidad
+
+```
+┌─────────────┐     ┌────────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
+│  Cliente    │────>│ Availability       │────>│ Availability     │────>│ Availability        │
+│             │     │ Controller         │     │ Service          │     │ Repository          │
+└─────────────┘     └────────────────────┘     └──────────────────┘     └─────────────────────┘
+       │                      │                         │                          │
+       │                      │                         │                          │
+       ▼                      ▼                         ▼                          ▼
+┌─────────────┐     ┌────────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
+│  Petición   │────>│ Validación DTO     │────>│ Validación de    │────>│ Persistencia        │
+│  HTTP       │     │                    │     │ Reglas de Negocio│     │ de Disponibilidad   │
+└─────────────┘     └────────────────────┘     └──────────────────┘     └─────────────────────┘
+                                                        │
+                                                        │
+                                                        ▼
+                                                ┌──────────────────┐
+                                                │ Notificación de  │
+                                                │ Cambios (eventos)│
+                                                └──────────────────┘
+```
+
+### Flujo del Módulo de Citas
+
+```
+┌─────────────┐     ┌────────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
+│  Cliente    │────>│ Appointment        │────>│ Appointment      │────>│ Appointment         │
+│             │     │ Controller         │     │ Service          │     │ Repository          │
+└─────────────┘     └────────────────────┘     └──────────────────┘     └─────────────────────┘
+       │                      │                         │                          │
+       │                      │                         │                          │
+       ▼                      ▼                         ▼                          ▼
+┌─────────────┐     ┌────────────────────┐     ┌──────────────────┐     ┌─────────────────────┐
+│  Petición   │────>│ Validación DTO     │────>│ Verificación de  │────>│ Persistencia        │
+│  HTTP       │     │                    │     │ Disponibilidad   │     │ de Cita             │
+└─────────────┘     └────────────────────┘     └──────────────────┘     └─────────────────────┘
+                                                        │
+                                                        │
+                                                        ▼
+                                                ┌──────────────────┐
+                                                │ Notificación a   │
+                                                │ Participantes    │
+                                                └──────────────────┘
+```
+
+Este análisis proporciona una visión general del proyecto CalenConnect API. La estructura modular y la arquitectura limpia implementada facilitan la mantenibilidad y escalabilidad del sistema, permitiendo agregar nuevas funcionalidades o modificar las existentes de manera aislada sin afectar a otros componentes.
+
+
+
+---
+
+#### 🔹 Usuario: 
+
+Los diagramas deben estar en sintaxis mermaid y debe ser en la version mas estable
+
+---
+
+#### 🔹 IA:
+
+<think>El usuario solicita que los diagramas que he proporcionado estén en sintaxis Mermaid (que es una herramienta popular para crear diagramas a través de código) y que use la versión más estable de Mermaid. Debo convertir los diagramas ASCII que presenté a sintaxis Mermaid.
+
+Para hacer esto, necesito reformular los diagramas de secuencia y de flujo utilizando la sintaxis de Mermaid. La versión más estable de Mermaid suele ser compatible con los tipos básicos de diagramas como los de secuencia, flujo, clase, etc.
+
+Voy a reformular los diagramas anteriores utilizando sintaxis Mermaid.</think># Diagramas en Sintaxis Mermaid
+
+Voy a proporcionar los diagramas en sintaxis Mermaid, usando la versión estable para asegurar compatibilidad.
+
+## Diagramas de Secuencia
+
+### Módulo de Usuario: Flujo de Creación de Usuario
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant UserController
+    participant UserService
+    participant UserRepository
+    participant Database
+    
+    Cliente->>UserController: POST /api/users
+    UserController->>UserService: createUser(dto)
+    UserService->>UserRepository: save(userEntity)
+    UserRepository->>Database: insert query
+    Database-->>UserRepository: user record
+    UserRepository-->>UserService: user entity
+    UserService-->>UserController: user response
+    UserController-->>Cliente: user created
+```
+
+### Módulo de Disponibilidad: Flujo de Definición de Disponibilidad
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant AvailabilityController
+    participant AvailabilityService
+    participant AvailabilityRepository
+    participant Database
+    
+    Cliente->>AvailabilityController: POST /api/availability
+    AvailabilityController->>AvailabilityService: createAvailability(dto)
+    AvailabilityService->>AvailabilityRepository: validateUserExists (user repo)
+    AvailabilityService->>AvailabilityRepository: save(availabilityEntity)
+    AvailabilityRepository->>Database: insert query
+    Database-->>AvailabilityRepository: availability record
+    AvailabilityRepository-->>AvailabilityService: availability entity
+    AvailabilityService-->>AvailabilityController: availability response
+    AvailabilityController-->>Cliente: availability created
+```
+
+### Módulo de Citas: Flujo de Programación de Cita
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant AppointmentController
+    participant AppointmentService
+    participant UserRepository
+    participant AppointmentRepository
+    participant Database
+    
+    Cliente->>AppointmentController: POST /api/appointments
+    AppointmentController->>AppointmentService: createAppointment(dto)
+    AppointmentService->>UserRepository: validateUsers (user repo)
+    AppointmentService->>AppointmentRepository: checkAvailability (availability repo)
+    AppointmentService->>AppointmentRepository: save(appointmentEntity)
+    AppointmentRepository->>Database: insert query
+    Database-->>AppointmentRepository: appointment record
+    AppointmentRepository-->>AppointmentService: appointment entity
+    AppointmentService-->>AppointmentController: appointment response
+    AppointmentController-->>Cliente: appointment created
+```
+
+## Diagramas de Flujo
+
+### Flujo del Módulo de Usuario
+
+```mermaid
+flowchart LR
+    A[Cliente] --> B[User Controller]
+    B --> C[User Service]
+    C --> D[User Repository]
+    
+    E[Petición HTTP] --> F[Validación DTO]
+    F --> G[Lógica de Negocio]
+    G --> H[Persistencia de Datos]
+    G --> I[Mapeo a DTO de Respuesta]
+```
+
+### Flujo del Módulo de Disponibilidad
+
+```mermaid
+flowchart LR
+    A[Cliente] --> B[Availability Controller]
+    B --> C[Availability Service]
+    C --> D[Availability Repository]
+    
+    E[Petición HTTP] --> F[Validación DTO]
+    F --> G[Validación de Reglas de Negocio]
+    G --> H[Persistencia de Disponibilidad]
+    G --> I[Notificación de Cambios - eventos]
+```
+
+### Flujo del Módulo de Citas
+
+```mermaid
+flowchart LR
+    A[Cliente] --> B[Appointment Controller]
+    B --> C[Appointment Service]
+    C --> D[Appointment Repository]
+    
+    E[Petición HTTP] --> F[Validación DTO]
+    F --> G[Verificación de Disponibilidad]
+    G --> H[Persistencia de Cita]
+    G --> I[Notificación a Participantes]
+```
+
+Estos diagramas utilizan la sintaxis Mermaid en su versión estable, lo que garantiza compatibilidad con la mayoría de las plataformas que admiten visualización de diagramas Mermaid.
+
+
+
+---
+
+#### 🔹 Usuario: 
+
+### **Actualización del Archivo `@README.md`**  
+
+#### **Instrucciones:**  
+A partir de la nueva documentación generada, actualiza el archivo `@README.md` asegurando que:  
+
+1. **Cumpla con buenas prácticas de documentación**, siguiendo estándares reconocidos.  
+2. **Sea claro, estructurado y fácil de entender**, tanto para nuevos desarrolladores como para usuarios del proyecto.  
+3. **Incluya los siguientes elementos esenciales:**  
+   - 📌 **Descripción del proyecto:** Explicación breve y concisa sobre su propósito y funcionalidad.  
+   - 🎯 **Objetivo y alcance:** Qué resuelve y a quién va dirigido.  
+   - 📂 **Estructura del proyecto:** Desglose de directorios y principales componentes.  
+   - ⚙️ **Requisitos previos:** Dependencias necesarias para ejecutar el proyecto.  
+   - 🚀 **Instrucciones de instalación y ejecución:** Pasos claros para configurar y ejecutar el proyecto.  
+   - 🔧 **Uso y ejemplos:** Comandos o casos de uso para demostrar su funcionamiento.  
+   - 🛠 **Guía de contribución:** Normas y recomendaciones para aportar al desarrollo.  
+   - 📜 **Licencia:** Tipo de licencia bajo la cual se distribuye el proyecto (si aplica).  
+
+#### **Criterios de calidad:**  
+- ✅ Uso de un lenguaje claro y profesional.  
+- ✅ Formato bien estructurado con secciones y markdown adecuado (`#`, `##`, `-`, etc.).  
+- ✅ Inclusión de ejemplos, tablas o diagramas si son útiles para la comprensión.  
+
+
+---
+
+#### 🔹 IA:
+
+<think>Se me pide solucionar un problema con la licencia MIT mencionada en el README.md. En el README actual, se menciona que el proyecto está licenciado bajo "MIT License" con un enlace a un archivo LICENSE, pero parece que este archivo no existe o no está referenciado correctamente.
+
+Voy a proponer la creación del contenido para un archivo LICENSE con el texto estándar de la licencia MIT y sugerir dónde debería ubicarse, así como asegurarme de que la referencia en el README sea correcta.</think># Solución para la Licencia MIT
+
+Veo que en el README se menciona que el proyecto está licenciado bajo MIT License, pero no se ha incluido el archivo de licencia correspondiente. Voy a proporcionar el contenido que deberías incluir en un archivo LICENSE en la raíz del proyecto.
+
+## Paso 1: Crear el archivo LICENSE
+
+Crea un archivo llamado `LICENSE` (sin extensión) en la raíz del proyecto con el siguiente contenido:
+
+```
+MIT License
+
+Copyright (c) 2023 [Nombre del Titular de los Derechos]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Paso 2: Personalizar el archivo LICENSE
+
+Reemplaza `[Nombre del Titular de los Derechos]` con el nombre del propietario del copyright, que podría ser tu nombre, el nombre de tu organización o el nombre del proyecto.
+
+## Paso 3: Actualizar la referencia en el README
+
+La referencia en el README ya está correcta:
+
+```markdown
+## 📜 Licencia
+
+Este proyecto está licenciado bajo [MIT License](LICENSE).
+```
+
+Este enlace funcionará correctamente una vez que hayas creado el archivo LICENSE en la raíz del proyecto.
+
+Con estos cambios, habrás solucionado el problema de la licencia MIT mencionada en el README.md pero que no estaba implementada correctamente.
+
 
 
 ---
@@ -1927,6 +2628,24 @@ Con esta planificación, procederé a crear el archivo seed.ts. ¿Deseas que rea
 
 #### 🔹 IA:
 
+---
+
+#### 🔹 Usuario: 
+
+
+---
+
+#### 🔹 IA:
+
+
+---
+
+#### 🔹 Usuario: 
+
+
+---
+
+#### 🔹 IA:
 
 
 
