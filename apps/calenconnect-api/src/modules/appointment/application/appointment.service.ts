@@ -9,6 +9,7 @@ import { AppointmentNotFoundException } from '../domain/exceptions/appointment-n
 import { AppointmentValidationException } from '../domain/exceptions/appointment-validation.exception';
 import { AppointmentInvalidStatusException } from '../domain/exceptions/appointment-invalid-status.exception';
 import { UserRepository } from '../../user/application/ports/out/user-repository.interface';
+import { AvailabilityRepository } from '../../availability/application/ports/out/availability-repository.interface';
 
 /**
  * Interfaz para el caso de uso de disponibilidad
@@ -35,6 +36,8 @@ export class AppointmentService implements AppointmentUseCase {
     private readonly userRepository: UserRepository,
     @Inject('AvailabilityUseCase')
     private readonly availabilityUseCase: AvailabilityUseCase,
+    @Inject('AvailabilityRepository')
+    private readonly availabilityRepository: AvailabilityRepository,
   ) {}
 
   async createAppointment(command: CreateAppointmentCommand): Promise<AppointmentEntity> {
@@ -50,18 +53,38 @@ export class AppointmentService implements AppointmentUseCase {
       throw new AppointmentValidationException('Profesional no encontrado');
     }
 
+    // Validar que el bloque de disponibilidad existe
+    const availability = await this.availabilityRepository.findById(command.availabilityId);
+    if (!availability) {
+      throw new AppointmentValidationException('Bloque de disponibilidad no encontrado');
+    }
+
+    // Validar que el bloque pertenece al profesional especificado
+    if (availability.professionalId !== command.professionalId) {
+      throw new AppointmentValidationException(
+        'El bloque de disponibilidad no pertenece al profesional especificado',
+      );
+    }
+
+    // Validar que el bloque no está ya reservado
+    if (availability.isBooked) {
+      throw new AppointmentValidationException('El bloque de disponibilidad ya está reservado');
+    }
+
     // Validar fecha de la cita
     this.validateAppointmentDate(command.appointmentDate);
 
-    // Verificar disponibilidad
-    const availableSlots = await this.availabilityUseCase.findAvailableSlots(
-      command.professionalId,
-      command.appointmentDate,
-    );
+    // Validar que la fecha de la cita coincide con la del bloque de disponibilidad
+    const availabilityDate = new Date(availability.availableDate);
+    const appointmentDate = new Date(command.appointmentDate);
 
-    if (availableSlots.length === 0) {
+    if (
+      availabilityDate.getFullYear() !== appointmentDate.getFullYear() ||
+      availabilityDate.getMonth() !== appointmentDate.getMonth() ||
+      availabilityDate.getDate() !== appointmentDate.getDate()
+    ) {
       throw new AppointmentValidationException(
-        'No hay disponibilidad para la fecha y hora seleccionada',
+        'La fecha de la cita no coincide con la fecha del bloque de disponibilidad',
       );
     }
 
@@ -69,13 +92,14 @@ export class AppointmentService implements AppointmentUseCase {
     const appointment = new AppointmentEntity({
       patientId: command.patientId,
       professionalId: command.professionalId,
+      availabilityId: command.availabilityId,
       appointmentDate: command.appointmentDate,
       status: command.status,
       notes: command.notes,
     });
 
     // Marcar la disponibilidad como reservada
-    await this.availabilityUseCase.markAsBooked(command.professionalId, command.appointmentDate);
+    await this.availabilityRepository.update(command.availabilityId, { isBooked: true });
 
     // Guardar la cita
     return this.appointmentRepository.save(appointment);
@@ -160,10 +184,7 @@ export class AppointmentService implements AppointmentUseCase {
     }
 
     // Liberar la disponibilidad
-    await this.availabilityUseCase.markAsAvailable(
-      appointment.professionalId,
-      appointment.appointmentDate,
-    );
+    await this.availabilityRepository.update(appointment.availabilityId, { isBooked: false });
 
     return this.appointmentRepository.update(id, { status: AppointmentStatus.CANCELLED });
   }
@@ -194,10 +215,7 @@ export class AppointmentService implements AppointmentUseCase {
     }
 
     // Liberar la disponibilidad anterior
-    await this.availabilityUseCase.markAsAvailable(
-      appointment.professionalId,
-      appointment.appointmentDate,
-    );
+    await this.availabilityRepository.update(appointment.availabilityId, { isBooked: false });
 
     // Reservar la nueva disponibilidad
     await this.availabilityUseCase.markAsBooked(appointment.professionalId, newDate);
@@ -237,10 +255,7 @@ export class AppointmentService implements AppointmentUseCase {
       appointment.status === AppointmentStatus.SCHEDULED ||
       appointment.status === AppointmentStatus.RESCHEDULED
     ) {
-      await this.availabilityUseCase.markAsAvailable(
-        appointment.professionalId,
-        appointment.appointmentDate,
-      );
+      await this.availabilityRepository.update(appointment.availabilityId, { isBooked: false });
     }
 
     await this.appointmentRepository.delete(id);

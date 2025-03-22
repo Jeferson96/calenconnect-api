@@ -20,6 +20,14 @@ export class CreateAppointmentDto {
   professionalId: string;
 
   @ApiProperty({
+    description: 'ID del bloque de disponibilidad',
+    example: '123e4567-e89b-12d3-a456-426614174002',
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  availabilityId: string;
+
+  @ApiProperty({
     description: 'Fecha y hora de la cita (ISO8601)',
     example: '2023-05-15T09:00:00Z',
   })

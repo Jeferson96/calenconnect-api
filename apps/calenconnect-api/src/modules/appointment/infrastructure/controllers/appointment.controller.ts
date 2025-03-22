@@ -51,12 +51,13 @@ export class AppointmentController {
   })
   async create(@Body() dto: CreateAppointmentDto): Promise<AppointmentResponseDto> {
     try {
-      const command = new CreateAppointmentCommand(
-        dto.patientId,
-        dto.professionalId,
-        new Date(dto.appointmentDate),
-        dto.status as AppointmentStatus,
-      );
+      const command = new CreateAppointmentCommand({
+        patientId: dto.patientId,
+        professionalId: dto.professionalId,
+        availabilityId: dto.availabilityId,
+        appointmentDate: dto.appointmentDate,
+        status: dto.status as AppointmentStatus,
+      });
 
       const appointment = await this.appointmentUseCase.createAppointment(command);
       return this.appointmentMapper.toResponseDto(appointment);

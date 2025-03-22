@@ -776,13 +776,29 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
       return true;
     };
 
-    // Función para encontrar un slot disponible en las disponibilidades existentes
+    // Array para almacenar todas las citas
+    const appointmentData: {
+      id: string;
+      patientId: string;
+      professionalId: string;
+      availabilityId: string;
+      appointmentDate: Date;
+      status: AppointmentStatus;
+      createdAt: Date;
+      updatedAt: Date;
+    }[] = [];
+
+    // UUIDs de los usuarios específicos
+    const fixedProfessionals = [ANA_PROFESSIONAL_UUID, CARLOS_PROFESSIONAL_UUID];
+    const fixedPatients = [ELENA_PATIENT_UUID, MIGUEL_PATIENT_UUID];
+
+    // Función modificada para encontrar un slot disponible
     const findAvailableSlot = (
       professionalId: string,
       patientId: string,
       targetDate: Date,
       status: AppointmentStatus,
-    ): Date | null => {
+    ): { date: Date; availabilityId: string } | null => {
       const dateStr = targetDate.toDateString();
 
       // Verificamos si hay disponibilidades para esta fecha y profesional
@@ -790,7 +806,7 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
         return null;
       }
 
-      // Filtramos los slots que están disponibles para ambos
+      // Filtramos los slots que están disponibles
       const availableSlots = availabilityMap[professionalId][dateStr].filter((slot) => {
         const slotHour = slot.startTime.getHours();
         const slotDate = new Date(targetDate);
@@ -803,10 +819,12 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
         return null;
       }
 
-      // Seleccionamos un slot disponible (el primero o uno aleatorio)
+      // Seleccionamos un slot disponible
+      // Para citas SCHEDULED, elegimos el primer slot disponible para asegurar consistencia
+      // Para otros estados, podemos elegir aleatoriamente
       const selectedSlot =
         status === AppointmentStatus.SCHEDULED
-          ? availableSlots[0] // Para citas programadas, usamos el primer slot disponible
+          ? availableSlots[0]
           : availableSlots[Math.floor(Math.random() * availableSlots.length)];
 
       // Creamos la fecha para la cita
@@ -816,23 +834,11 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
       // Marcamos el slot como ocupado
       markSlotAsBooked(professionalId, patientId, appointmentDate);
 
-      return appointmentDate;
+      return {
+        date: appointmentDate,
+        availabilityId: selectedSlot.id,
+      };
     };
-
-    // Array para almacenar todas las citas
-    const appointmentData: {
-      id: string;
-      patientId: string;
-      professionalId: string;
-      appointmentDate: Date;
-      status: AppointmentStatus;
-      createdAt: Date;
-      updatedAt: Date;
-    }[] = [];
-
-    // UUIDs de los usuarios específicos
-    const fixedProfessionals = [ANA_PROFESSIONAL_UUID, CARLOS_PROFESSIONAL_UUID];
-    const fixedPatients = [ELENA_PATIENT_UUID, MIGUEL_PATIENT_UUID];
 
     // Para cada combinación de paciente-profesional con UUIDs fijos:
     for (const patientId of fixedPatients) {
@@ -841,27 +847,28 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
           `Generando citas para paciente ${patientId} con profesional ${professionalId}...`,
         );
 
-        // 2 citas pasadas (COMPLETED)
+        // 2 citas pasadas (COMPLETED) - Exactamente 2 como se requiere
         for (let i = 0; i < 2; i++) {
-          // Primera cita: 15 días atrás, segunda: 7 días atrás
           const pastDate = createLocalDate(now);
+          // Primera cita: 15 días atrás, segunda: 7 días atrás
           pastDate.setDate(now.getDate() - (i === 0 ? 15 : 7));
           pastDate.setHours(9 + i, 0, 0, 0);
 
           // Buscamos un slot disponible para esta fecha
-          const appointmentDate = findAvailableSlot(
+          const slotInfo = findAvailableSlot(
             professionalId,
             patientId,
             pastDate,
             AppointmentStatus.COMPLETED,
           );
 
-          if (appointmentDate) {
+          if (slotInfo) {
             appointmentData.push({
               id: uuidv4(),
               patientId,
               professionalId,
-              appointmentDate,
+              availabilityId: slotInfo.availabilityId,
+              appointmentDate: slotInfo.date,
               status: AppointmentStatus.COMPLETED,
               createdAt: now,
               updatedAt: now,
@@ -869,7 +876,7 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
           }
         }
 
-        // 2 citas futuras (SCHEDULED)
+        // 2 citas futuras (SCHEDULED) - Exactamente 2 como se requiere
         for (let i = 0; i < 2; i++) {
           // Primera cita: 7 días adelante, segunda: 14 días adelante
           const futureDate = createLocalDate(now);
@@ -877,19 +884,20 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
           futureDate.setHours(14 + i, 0, 0, 0);
 
           // Buscamos un slot disponible para esta fecha
-          const appointmentDate = findAvailableSlot(
+          const slotInfo = findAvailableSlot(
             professionalId,
             patientId,
             futureDate,
             AppointmentStatus.SCHEDULED,
           );
 
-          if (appointmentDate) {
+          if (slotInfo) {
             appointmentData.push({
               id: uuidv4(),
               patientId,
               professionalId,
-              appointmentDate,
+              availabilityId: slotInfo.availabilityId,
+              appointmentDate: slotInfo.date,
               status: AppointmentStatus.SCHEDULED,
               createdAt: now,
               updatedAt: now,
@@ -897,25 +905,26 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
           }
         }
 
-        // 1 cita cancelada (CANCELLED)
+        // 1 cita cancelada (CANCELLED) - Exactamente 1 como se requiere
         const cancelledDate = createLocalDate(now);
         cancelledDate.setDate(now.getDate() - 3);
         cancelledDate.setHours(11, 0, 0, 0);
 
         // Buscamos un slot disponible para esta fecha
-        const cancelledAppointmentDate = findAvailableSlot(
+        const slotInfo = findAvailableSlot(
           professionalId,
           patientId,
           cancelledDate,
           AppointmentStatus.CANCELLED,
         );
 
-        if (cancelledAppointmentDate) {
+        if (slotInfo) {
           appointmentData.push({
             id: uuidv4(),
             patientId,
             professionalId,
-            appointmentDate: cancelledAppointmentDate,
+            availabilityId: slotInfo.availabilityId,
+            appointmentDate: slotInfo.date,
             status: AppointmentStatus.CANCELLED,
             createdAt: now,
             updatedAt: now,
@@ -980,40 +989,25 @@ async function seedAppointments(users: User[]): Promise<Appointment[]> {
         baseDate.setHours(9 + Math.floor(Math.random() * 8), 0, 0, 0);
 
         // Intentamos encontrar un slot disponible existente
-        const appointmentDate = findAvailableSlot(
+        const slotInfo = findAvailableSlot(
           randomProfessional.id,
           randomPatient.id,
           baseDate,
           status,
         );
 
-        // Si no hay slots disponibles existentes, creamos uno nuevo
-        if (appointmentDate) {
+        // Si encontramos disponibilidad, creamos la cita
+        if (slotInfo) {
           appointmentData.push({
             id: uuidv4(),
             patientId: randomPatient.id,
             professionalId: randomProfessional.id,
-            appointmentDate,
+            availabilityId: slotInfo.availabilityId,
+            appointmentDate: slotInfo.date,
             status,
             createdAt: now,
             updatedAt: now,
           });
-        } else {
-          // Para pacientes regulares, podemos crear slots adicionales si es necesario
-          // Verificamos solo que no haya conflicto de horarios
-          if (isSlotAvailable(randomProfessional.id, randomPatient.id, baseDate)) {
-            markSlotAsBooked(randomProfessional.id, randomPatient.id, baseDate);
-
-            appointmentData.push({
-              id: uuidv4(),
-              patientId: randomPatient.id,
-              professionalId: randomProfessional.id,
-              appointmentDate: baseDate,
-              status,
-              createdAt: now,
-              updatedAt: now,
-            });
-          }
         }
       }
     }

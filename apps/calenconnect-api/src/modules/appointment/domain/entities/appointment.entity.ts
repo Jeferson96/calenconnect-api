@@ -7,6 +7,7 @@ export class AppointmentEntity {
   readonly id?: string;
   readonly patientId: string;
   readonly professionalId: string;
+  readonly availabilityId: string;
   readonly appointmentDate: Date;
   readonly status: AppointmentStatus;
   readonly notes?: string;
@@ -17,6 +18,7 @@ export class AppointmentEntity {
     id?: string;
     patientId: string;
     professionalId: string;
+    availabilityId: string;
     appointmentDate: Date;
     status?: AppointmentStatus;
     notes?: string;
@@ -26,6 +28,7 @@ export class AppointmentEntity {
     this.id = props.id;
     this.patientId = props.patientId;
     this.professionalId = props.professionalId;
+    this.availabilityId = props.availabilityId;
     this.appointmentDate = props.appointmentDate;
     this.status = props.status ?? AppointmentStatus.SCHEDULED;
     this.notes = props.notes;

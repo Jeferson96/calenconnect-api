@@ -57,6 +57,7 @@ model Appointment {
   id              String            @id @default(uuid()) @db.Uuid
   patientId       String            @map("patient_id") @db.Uuid
   professionalId  String            @map("professional_id") @db.Uuid
+  availabilityId  String            @map("availability_id") @db.Uuid
   appointmentDate DateTime          @map("appointment_date")
   status          AppointmentStatus
   createdAt       DateTime          @default(now()) @map("created_at")
@@ -65,23 +66,25 @@ model Appointment {
   // Relaciones
   patient         User              @relation("PatientAppointments", fields: [patientId], references: [id])
   professional    User              @relation("ProfessionalAppointments", fields: [professionalId], references: [id])
+  availability    Availability      @relation(fields: [availabilityId], references: [id])
   notifications   Notification[]
 
   @@map("appointments")
 }
 
 model Availability {
-  id              String    @id @default(uuid()) @db.Uuid
-  professionalId  String    @map("professional_id") @db.Uuid
-  availableDate   DateTime  @map("available_date")
-  startTime       DateTime  @map("start_time")
-  endTime         DateTime  @map("end_time")
-  isBooked        Boolean   @default(false) @map("is_booked")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  id              String        @id @default(uuid()) @db.Uuid
+  professionalId  String        @map("professional_id") @db.Uuid
+  availableDate   DateTime      @map("available_date")
+  startTime       DateTime      @map("start_time")
+  endTime         DateTime      @map("end_time")
+  isBooked        Boolean       @default(false) @map("is_booked")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
 
   // Relaciones
-  professional    User      @relation(fields: [professionalId], references: [id])
+  professional    User          @relation(fields: [professionalId], references: [id])
+  appointments    Appointment[]
 
   @@map("availability")
 }
