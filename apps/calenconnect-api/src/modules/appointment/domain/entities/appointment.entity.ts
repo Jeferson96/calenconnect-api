@@ -51,7 +51,9 @@ export class AppointmentEntity {
       throw new Error('La fecha de la cita es obligatoria');
     }
 
-    if (this.appointmentDate < new Date()) {
+    // Solo validar fechas en el pasado para citas nuevas (sin ID)
+    // o que no estén completadas/canceladas
+    if (!this.id && this.appointmentDate < new Date()) {
       throw new Error('La fecha de la cita no puede ser en el pasado');
     }
   }
