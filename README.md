@@ -1,99 +1,279 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📌 Descripción del Proyecto
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+CalenConnect API es una aplicación backend robusta desarrollada con NestJS que proporciona servicios para la gestión de calendarios, disponibilidad y citas. El sistema permite a los usuarios gestionar sus horarios, definir periodos de disponibilidad y programar citas de manera eficiente.
 
-## Description
+La API está construida siguiendo principios de Arquitectura Limpia y Domain-Driven Design (DDD), lo que garantiza un código mantenible, escalable y enfocado en el dominio del negocio.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🎯 Objetivo y Alcance
 
-## Project setup
+### Objetivo General
 
-```bash
-$ npm install
+Proporcionar una plataforma robusta para la gestión de calendarios y citas, facilitando la coordinación entre personas que necesitan programar reuniones o servicios basados en la disponibilidad mutua.
+
+### Objetivos Específicos
+
+- Permitir a los usuarios gestionar sus perfiles y preferencias de calendario
+- Facilitar la definición de períodos de disponibilidad
+- Permitir la creación, modificación y cancelación de citas
+- Proporcionar una API bien documentada y segura para integraciones con aplicaciones cliente
+- Implementar un sistema escalable siguiendo buenas prácticas de arquitectura
+
+### Público Objetivo
+
+- Profesionales independientes que necesitan gestionar su agenda
+- Empresas de servicios que requieren un sistema de citas
+- Desarrolladores que buscan integrar funcionalidades de calendario en sus aplicaciones
+
+## 📂 Estructura del Proyecto
+
+```
+calenconnect-api/
+├── apps/
+│   └── calenconnect-api/
+│       ├── src/
+│       │   ├── modules/
+│       │   │   ├── user/              # Gestión de usuarios
+│       │   │   ├── availability/      # Gestión de disponibilidad
+│       │   │   └── appointment/       # Gestión de citas
+│       │   ├── swagger/               # Configuración de documentación API
+│       │   ├── app.module.ts          # Módulo principal de la aplicación
+│       │   └── main.ts                # Punto de entrada de la aplicación
+│       └── test/                      # Pruebas de integración
+├── libs/
+│   ├── common/                        # Utilidades y componentes comunes
+│   ├── config/                        # Configuración de la aplicación
+│   ├── database/                      # Acceso a base de datos
+│   ├── domain/                        # Definiciones de dominio compartidas
+│   └── infrastructure/                # Componentes de infraestructura compartidos
+├── prisma/                            # Esquema y configuración de Prisma ORM
+└── config/                            # Archivos de configuración global
 ```
 
-## Compile and run the project
+### Arquitectura
+
+El proyecto implementa una **Arquitectura Limpia** combinada con principios de **Domain-Driven Design (DDD)** con un enfoque modular:
+
+- **Capa de Dominio**: Entidades, objetos de valor, excepciones y eventos que representan los conceptos centrales del negocio.
+- **Capa de Aplicación**: Casos de uso (servicios) que orquestan la lógica de negocio.
+- **Capa de Infraestructura**: Implementaciones técnicas como controladores REST, repositorios y DTOs.
+
+### Principales Módulos
+
+1. **Módulo de Usuario**
+   - Gestión de perfiles de usuario
+   - Autenticación y autorización
+
+2. **Módulo de Disponibilidad**
+   - Definición de períodos de disponibilidad
+   - Gestión de horarios recurrentes
+
+3. **Módulo de Citas**
+   - Creación y gestión de citas
+   - Confirmación y cancelación
+
+## ⚙️ Requisitos Previos
+
+Para ejecutar este proyecto, necesitarás tener instalado:
+
+- Node.js (v18 o superior)
+- npm (v8 o superior)
+- PostgreSQL (opcional si utilizas Supabase)
+- Cuenta en Supabase (para autenticación y base de datos)
+
+## 🚀 Instrucciones de Instalación y Ejecución
+
+### Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/calenconnect-api.git
+   cd calenconnect-api
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+
+3. Configura las variables de entorno:
+   ```bash
+   cp .env.example .env
+   ```
+   Edita el archivo `.env` con tus propias credenciales.
+
+4. Ejecuta las migraciones de la base de datos:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. (Opcional) Carga datos semilla:
+   ```bash
+   npm run seed
+   ```
+
+### Ejecución
 
 ```bash
-# development
-$ npm run start
+# Modo desarrollo
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Modo producción
+npm run build
+npm run start:prod
 ```
 
-## Run tests
+La API estará disponible en: `http://localhost:3000/api`
+La documentación Swagger estará disponible en: `http://localhost:3000/api/docs`
+
+## 🔧 Uso y Ejemplos
+
+### Flujos Principales
+
+#### Creación de Usuario
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant UserController
+    participant UserService
+    participant UserRepository
+    participant Database
+    
+    Cliente->>UserController: POST /api/users
+    UserController->>UserService: createUser(dto)
+    UserService->>UserRepository: save(userEntity)
+    UserRepository->>Database: insert query
+    Database-->>UserRepository: user record
+    UserRepository-->>UserService: user entity
+    UserService-->>UserController: user response
+    UserController-->>Cliente: user created
+```
+
+#### Definición de Disponibilidad
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant AvailabilityController
+    participant AvailabilityService
+    participant AvailabilityRepository
+    participant Database
+    
+    Cliente->>AvailabilityController: POST /api/availability
+    AvailabilityController->>AvailabilityService: createAvailability(dto)
+    AvailabilityService->>AvailabilityRepository: validateUserExists (user repo)
+    AvailabilityService->>AvailabilityRepository: save(availabilityEntity)
+    AvailabilityRepository->>Database: insert query
+    Database-->>AvailabilityRepository: availability record
+    AvailabilityRepository-->>AvailabilityService: availability entity
+    AvailabilityService-->>AvailabilityController: availability response
+    AvailabilityController-->>Cliente: availability created
+```
+
+### Ejemplos de Uso de la API
+
+#### Crear un nuevo usuario
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securepassword"
+  }'
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+#### Definir disponibilidad
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+curl -X POST http://localhost:3000/api/availability \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "userId": "user-id",
+    "startDate": "2023-06-01T09:00:00Z",
+    "endDate": "2023-06-01T17:00:00Z"
+  }'
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### Programar una cita
 
-## Resources
+```bash
+curl -X POST http://localhost:3000/api/appointments \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "title": "Reunión de proyecto",
+    "hostId": "host-user-id",
+    "guestId": "guest-user-id",
+    "startDate": "2023-06-01T10:00:00Z",
+    "endDate": "2023-06-01T11:00:00Z"
+  }'
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🧪 Pruebas
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# Ejecutar pruebas unitarias
+npm run test
 
-## Support
+# Ejecutar pruebas end-to-end
+npm run test:e2e
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Ver cobertura de pruebas
+npm run test:cov
+```
 
-## Stay in touch
+## 🛠 Guía de Contribución
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Agradecemos todas las contribuciones al proyecto. Si deseas contribuir, por favor sigue estas pautas:
 
-## License
+1. **Crea un fork** del repositorio
+2. **Crea una rama** para tu funcionalidad (`git checkout -b feature/amazing-feature`)
+3. **Realiza tus cambios** siguiendo las convenciones de código
+4. **Asegúrate de incluir pruebas** para tu funcionalidad
+5. **Envía un pull request** a la rama principal
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Convenciones de Código
+
+- Utiliza la guía de estilo de TypeScript proporcionada (configurada en ESLint y Prettier)
+- Escribe pruebas unitarias para toda la funcionalidad
+- Sigue los principios de arquitectura limpia y DDD
+- Usa nombres descriptivos para variables, funciones y clases
+
+### Convenciones de Commits
+
+Todos los commits deben seguir las mejores prácticas de Conventional Commits:
+
+```
+<tipo>(<ámbito opcional>): <descripción>
+
+[Descripción extendida opcional]
+
+[Referencias opcionales a issues o tickets]
+```
+
+Ejemplos de tipos:
+- `feat`: Nueva funcionalidad
+- `fix`: Corrección de errores
+- `docs`: Cambios en la documentación
+- `style`: Cambios de formato sin lógica
+- `refactor`: Reestructuración de código sin cambios funcionales
+- `test`: Adición o modificación de pruebas
+- `chore`: Tareas de mantenimiento (configuración, dependencias, etc.)
+
+
+## 🙋‍♂️ Soporte
+
+Si necesitas ayuda o tienes preguntas sobre el proyecto:
+- Abre un issue en el repositorio
+- Contacta al equipo de desarrollo en [email@example.com]
+
+---
+
+Desarrollado con ❤️ usando [NestJS](https://nestjs.com/)

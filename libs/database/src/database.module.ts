@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@libs/config';
+import { ConfigModule, ConfigService } from '@libs/config';
 import { PrismaService } from './prisma.service';
 import { SupabaseService } from './supabase.service';
 import { UserRepository } from './repositories/user.repository';
@@ -9,6 +9,7 @@ import { NotificationRepository } from './repositories/notification.repository';
 
 @Global()
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: PrismaService,
