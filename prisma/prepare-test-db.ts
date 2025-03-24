@@ -22,6 +22,44 @@ if (fs.existsSync(testEnvPath)) {
   dotenv.config();
 }
 
+/**
+ * Limpia todas las tablas de la base de datos antes de cargar datos iniciales
+ */
+async function cleanDatabase(prisma: PrismaClient): Promise<void> {
+  console.log('🧹 Limpiando base de datos antes de cargar datos iniciales...');
+  
+  try {
+    // Desactiva las restricciones de clave foránea temporalmente
+    await prisma.$executeRawUnsafe('SET session_replication_role = replica;');
+
+    // Obtenemos información sobre las tablas que existen
+    const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
+      SELECT tablename
+      FROM pg_tables
+      WHERE schemaname = 'public'
+    `;
+
+    // Truncar todas las tablas excepto _prisma_migrations
+    for (const { tablename } of tables) {
+      if (tablename !== '_prisma_migrations') {
+        try {
+          await prisma.$executeRawUnsafe(`TRUNCATE TABLE "${tablename}" CASCADE;`);
+          console.log(`✓ Tabla ${tablename} limpiada`);
+        } catch (err) {
+          console.warn(`⚠️ Error al truncar tabla ${tablename}:`, err);
+        }
+      }
+    }
+
+    // Reactiva las restricciones de clave foránea
+    await prisma.$executeRawUnsafe('SET session_replication_role = DEFAULT;');
+    
+    console.log('✅ Base de datos limpiada correctamente');
+  } catch (error) {
+    console.error('❌ Error al limpiar la base de datos:', error);
+  }
+}
+
 async function prepareTestDatabase() {
   console.log('🔧 Preparando base de datos de prueba...');
 
@@ -103,6 +141,12 @@ async function prepareTestDatabase() {
       if (stderr) console.error(stderr);
 
       console.log('✅ Base de datos de prueba preparada correctamente');
+      
+      // Crear un cliente Prisma para la base de datos de prueba
+      const prisma = new PrismaClient();
+      
+      // Limpiar la base de datos antes de cargar datos iniciales
+      await cleanDatabase(prisma);
 
       // Intentar cargar datos de prueba
       console.log('🔄 Cargando datos iniciales de prueba...');
@@ -114,6 +158,9 @@ async function prepareTestDatabase() {
       } catch (error) {
         console.error('⚠️ Error al cargar datos de prueba:', error);
         console.log('⚠️ Los tests deberán crear sus propios datos si es necesario.');
+      } finally {
+        // Cerrar la conexión
+        await prisma.$disconnect();
       }
     } catch (error) {
       console.error('Error al ejecutar las migraciones:', error);

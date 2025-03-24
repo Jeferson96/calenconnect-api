@@ -32,17 +32,23 @@ class PrismaTestEnvironment {
 
     try {
       // Crear una base de datos temporal
-      await this.prismaClient.$executeRawUnsafe(`CREATE DATABASE "${this.dbName}"`);
+      await this.prismaClient.$executeRawUnsafe(`CREATE DATABASE "${this.dbName}" WITH OWNER = postgres ENCODING = 'UTF8'`);
 
-      // Ejecutar migraciones en la base de datos de prueba
+      // Ejecutar migraciones en la base de datos de prueba con timeout aumentado
       execSync('npx prisma migrate deploy', {
         env: {
           ...process.env,
           DATABASE_URL: process.env.DATABASE_URL,
         },
+        timeout: 60000 // Aumentar el timeout a 60 segundos
       });
+      
+      // Limpiar la base de datos después de las migraciones para asegurar un estado limpio
+      await this.cleanDatabase();
+      
+      console.log('✅ Entorno de prueba configurado correctamente');
     } catch (error) {
-      console.error('Error al configurar la base de datos de prueba:', error);
+      console.error('❌ Error al configurar la base de datos de prueba:', error);
       throw error;
     }
   }
@@ -52,6 +58,9 @@ class PrismaTestEnvironment {
    */
   async teardown(): Promise<void> {
     try {
+      // Limpiar la base de datos antes de eliminarla
+      await this.cleanDatabase();
+      
       // Cerrar conexiones
       await this.prismaClient.$disconnect();
 
@@ -69,8 +78,44 @@ class PrismaTestEnvironment {
 
       // Restaurar la URL original
       process.env.DATABASE_URL = this.originalUrl;
+      
+      console.log('✅ Entorno de prueba limpiado correctamente');
     } catch (error) {
-      console.error('Error al limpiar la base de datos de prueba:', error);
+      console.error('❌ Error al limpiar el entorno de prueba:', error);
+    }
+  }
+
+  /**
+   * Limpia la base de datos para tener un estado predecible
+   */
+  private async cleanDatabase(): Promise<void> {
+    try {
+      console.log('🧹 Limpiando base de datos del entorno de prueba...');
+      
+      // Desactivar temporalmente las restricciones de clave foránea
+      await this.prismaClient.$executeRawUnsafe('SET session_replication_role = replica;');
+      
+      // Obtener todas las tablas excepto _prisma_migrations
+      const tablenames = await this.prismaClient.$queryRaw<
+        Array<{ tablename: string }>
+      >`SELECT tablename FROM pg_tables WHERE schemaname='public' AND tablename != '_prisma_migrations'`;
+      
+      // Truncar todas las tablas
+      for (const { tablename } of tablenames) {
+        try {
+          await this.prismaClient.$executeRawUnsafe(`TRUNCATE TABLE "${tablename}" CASCADE;`);
+          console.log(`✓ Tabla ${tablename} limpiada`);
+        } catch (err) {
+          console.warn(`⚠️ Error al truncar tabla ${tablename}:`, err);
+        }
+      }
+      
+      // Reactivar las restricciones de clave foránea
+      await this.prismaClient.$executeRawUnsafe('SET session_replication_role = default;');
+      
+      console.log('✅ Base de datos limpiada para el entorno de prueba');
+    } catch (error) {
+      console.error('❌ Error al limpiar la base de datos del entorno:', error);
     }
   }
 
@@ -85,6 +130,8 @@ class PrismaTestEnvironment {
           url: process.env.DATABASE_URL,
         },
       },
+      // Configurar log para depuración durante pruebas
+      log: ['warn', 'error'],
     });
   }
 }

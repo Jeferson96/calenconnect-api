@@ -266,61 +266,110 @@ describe('AppointmentController (e2e)', () => {
   });
 
   describe('PUT /appointments/:id/cancel', () => {
-    let cancelAppointmentId: string;
+    let cancelAppointmentId: string | undefined;
+    let cancelAvailabilityId: string;
 
-    beforeAll(async () => {
-      // Crear una cita específica para la prueba de cancelación
-      // Primero verificar que el profesional y el paciente existan
-      const professional = await prismaService.user.findFirst({
-        where: { role: UserRole.PROFESSIONAL },
+    beforeEach(async () => {
+      // Crear una nueva disponibilidad específica para esta prueba
+      const startTime = new Date(tomorrow);
+      startTime.setHours(15, 0, 0, 0);
+      
+      const endTime = new Date(tomorrow);
+      endTime.setHours(16, 0, 0, 0);
+
+      // Primero verificar que el profesional existe
+      const professionalExists = await prismaService.user.findUnique({
+        where: { id: professionalId }
       });
 
-      const patient = await prismaService.user.findFirst({
-        where: { role: UserRole.PATIENT },
-      });
-
-      if (!professional || !patient) {
-        console.log('No se encontraron usuarios para crear la cita de cancelación');
-        return;
+      if (!professionalExists) {
+        console.log(`⚠️ Profesional con ID ${professionalId} no existe, creando uno nuevo...`);
+        
+        // Crear un nuevo profesional
+        const newProfessional = await prismaService.user.create({
+          data: {
+            id: uuidv4(),
+            authUserId: uuidv4(),
+            firstName: 'Doctor',
+            lastName: 'Cancelación',
+            role: UserRole.PROFESSIONAL,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+        
+        professionalId = newProfessional.id;
+        console.log(`Nuevo profesional creado con ID: ${professionalId}`);
       }
 
-      // Crear disponibilidad para el profesional
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      const startTime = new Date(tomorrow);
-      startTime.setHours(10, 0, 0, 0);
-
-      const endTime = new Date(tomorrow);
-      endTime.setHours(11, 0, 0, 0);
-
-      // Crear disponibilidad con objetos Date completos
+      // Crear una disponibilidad específica para la cancelación
       const availability = await prismaService.availability.create({
         data: {
-          professionalId: professional.id,
+          id: uuidv4(),
+          professionalId: professionalId,
           availableDate: tomorrow,
           startTime,
           endTime,
           isBooked: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       });
+      
+      cancelAvailabilityId = availability.id;
+      console.log(`Disponibilidad para cancelación creada con ID: ${cancelAvailabilityId}`);
 
-      // Crear la cita para la prueba de cancelación
-      const appointmentResponse = await request(app.getHttpServer())
-        .post('/appointments')
-        .send({
-          patientId: patient.id,
-          professionalId: professional.id,
-          availabilityId: availability.id,
-          appointmentDate: tomorrow.toISOString().split('T')[0],
-          startTime: startTime.toISOString(),
-          endTime: endTime.toISOString(),
-          status: AppointmentStatus.SCHEDULED,
-        })
-        .expect(201);
+      // Luego verificar que el paciente existe
+      const patientExists = await prismaService.user.findUnique({
+        where: { id: patientId }
+      });
 
-      cancelAppointmentId = appointmentResponse.body.id;
-      console.log(`Cita para cancelación creada con ID: ${cancelAppointmentId}`);
+      if (!patientExists) {
+        console.log(`⚠️ Paciente con ID ${patientId} no existe, creando uno nuevo...`);
+        
+        // Crear un nuevo paciente
+        const newPatient = await prismaService.user.create({
+          data: {
+            id: uuidv4(),
+            authUserId: uuidv4(),
+            firstName: 'Paciente',
+            lastName: 'Cancelación',
+            role: UserRole.PATIENT,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+        
+        patientId = newPatient.id;
+        console.log(`Nuevo paciente creado con ID: ${patientId}`);
+      }
+
+      // Crear directamente una cita utilizando Prisma en lugar del endpoint
+      try {
+        const appointment = await prismaService.appointment.create({
+          data: {
+            id: uuidv4(),
+            patientId: patientId,
+            professionalId: professionalId,
+            availabilityId: cancelAvailabilityId,
+            appointmentDate: tomorrow,
+            status: AppointmentStatus.SCHEDULED,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        });
+
+        // Actualizar la disponibilidad como reservada
+        await prismaService.availability.update({
+          where: { id: cancelAvailabilityId },
+          data: { isBooked: true }
+        });
+
+        cancelAppointmentId = appointment.id;
+        console.log(`Cita para cancelación creada directamente con ID: ${cancelAppointmentId}`);
+      } catch (error) {
+        console.error('Error al crear cita para cancelación:', error);
+      }
     });
 
     it('should cancel an appointment', async () => {

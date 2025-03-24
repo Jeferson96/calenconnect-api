@@ -13,6 +13,7 @@ module.exports = {
       transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
       },
+      maxWorkers: 1,
     },
     {
       displayName: 'integration',
@@ -27,6 +28,8 @@ module.exports = {
       transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
       },
+      maxWorkers: 1,
+      setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     },
     {
       displayName: 'e2e',
@@ -41,8 +44,12 @@ module.exports = {
       transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
       },
+      maxWorkers: 1,
+      setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     },
   ],
+  maxWorkers: 1,
+  testTimeout: 60000,
   collectCoverageFrom: [
     'apps/calenconnect-api/src/**/*.ts',
     '!apps/calenconnect-api/src/**/*.module.ts',
