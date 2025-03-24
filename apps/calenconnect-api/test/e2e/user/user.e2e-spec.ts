@@ -5,6 +5,17 @@ import { AppModule } from '../../../src/app.module';
 import { PrismaService } from '@libs/database';
 import { v4 as uuidv4 } from 'uuid';
 import { UserRole as PrismaUserRole, User } from '@prisma/client';
+import { Response } from 'supertest';
+import { cleanDatabaseSafely } from '../../utils/test-helpers';
+
+// Interfaz para el cuerpo de respuesta de usuario
+interface UserResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  [key: string]: unknown;
+}
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -21,14 +32,10 @@ describe('UserController (e2e)', () => {
     await app.init();
 
     prismaService = app.get<PrismaService>(PrismaService);
-    
-    // Limpiar las tablas relacionadas antes de las pruebas
-    await prismaService.notification.deleteMany({});
-    await prismaService.appointment.deleteMany({});
-    await prismaService.availability.deleteMany({});
-    await prismaService.auditLog.deleteMany({});
-    await prismaService.user.deleteMany({});
-    
+
+    // Limpiar las tablas relacionadas antes de las pruebas respetando las restricciones de clave foránea
+    await cleanDatabaseSafely(prismaService);
+
     // Crear un usuario de prueba para usar en las pruebas
     testUser = await prismaService.user.create({
       data: {
@@ -41,37 +48,32 @@ describe('UserController (e2e)', () => {
         updatedAt: new Date(),
       },
     });
-    
+
     console.log('Usuario de prueba creado:', testUser.id);
   }, 30000);
 
   afterAll(async () => {
-    // Limpiar datos después de las pruebas
-    await prismaService.notification.deleteMany({});
-    await prismaService.appointment.deleteMany({});
-    await prismaService.availability.deleteMany({});
-    await prismaService.auditLog.deleteMany({});
-    await prismaService.user.deleteMany({});
+    // Limpiar datos después de las pruebas respetando las restricciones de clave foránea
+    await cleanDatabaseSafely(prismaService);
     await app.close();
   }, 30000);
 
   describe('GET /users/:id', () => {
     it('should return 404 for non-existent user', () => {
       const nonExistentId = uuidv4(); // Usar un UUID válido pero que no existe
-      return request(app.getHttpServer())
-        .get(`/users/${nonExistentId}`)
-        .expect(404);
+      return request(app.getHttpServer()).get(`/users/${nonExistentId}`).expect(404);
     });
 
     it('should return user data for existing user', () => {
       return request(app.getHttpServer())
         .get(`/users/${testUser.id}`)
         .expect(200)
-        .expect((res) => {
-          expect(res.body).toBeDefined();
-          expect(res.body.id).toBe(testUser.id);
-          expect(res.body.firstName).toBe('E2E');
-          expect(res.body.lastName).toBe('Test');
+        .expect((res: Response) => {
+          const body = res.body as UserResponse;
+          expect(body).toBeDefined();
+          expect(body.id).toBe(testUser.id);
+          expect(body.firstName).toBe('E2E');
+          expect(body.lastName).toBe('Test');
         });
     });
   });
@@ -89,12 +91,13 @@ describe('UserController (e2e)', () => {
         .post('/users')
         .send(newUser)
         .expect(201)
-        .expect((res) => {
-          expect(res.body).toBeDefined();
-          expect(res.body.id).toBeDefined();
-          expect(res.body.firstName).toBe('Nuevo');
-          expect(res.body.lastName).toBe('Usuario');
-          expect(res.body.role).toBe('PATIENT');
+        .expect((res: Response) => {
+          const body = res.body as UserResponse;
+          expect(body).toBeDefined();
+          expect(body.id).toBeDefined();
+          expect(body.firstName).toBe('Nuevo');
+          expect(body.lastName).toBe('Usuario');
+          expect(body.role).toBe('PATIENT');
         });
     });
 

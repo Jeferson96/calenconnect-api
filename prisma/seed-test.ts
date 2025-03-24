@@ -1,4 +1,11 @@
-import { PrismaClient, UserRole, AppointmentStatus, Prisma } from '@prisma/client';
+import {
+  PrismaClient,
+  UserRole,
+  AppointmentStatus,
+  Prisma,
+  User,
+  Availability,
+} from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -9,15 +16,15 @@ import { v4 as uuidv4 } from 'uuid';
 // Constantes para IDs fijos que se pueden usar en pruebas (ahora usando UUIDs válidos)
 export const TEST_IDS = {
   PROFESSIONAL: {
-    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',  // UUID v4 válido
+    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d479', // UUID v4 válido
     SECOND: 'f47ac10b-58cc-4372-a567-0e02b2c3d480', // UUID v4 válido
   },
   PATIENT: {
-    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d481',  // UUID v4 válido
+    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d481', // UUID v4 válido
     SECOND: 'f47ac10b-58cc-4372-a567-0e02b2c3d482', // UUID v4 válido
   },
   AVAILABILITY: {
-    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d483',  // UUID v4 válido
+    FIRST: 'f47ac10b-58cc-4372-a567-0e02b2c3d483', // UUID v4 válido
     SECOND: 'f47ac10b-58cc-4372-a567-0e02b2c3d484', // UUID v4 válido
   },
   APPOINTMENT: {
@@ -53,16 +60,20 @@ async function main() {
  * Limpia la base de datos
  */
 async function cleanDatabase(tx: PrismaClient) {
+  // Importante: eliminar datos en orden correcto respetando las restricciones de claves foráneas
+  await tx.notification.deleteMany({});
   await tx.appointment.deleteMany({});
+  await tx.auditLog.deleteMany({});
   await tx.availability.deleteMany({});
   await tx.user.deleteMany({});
+  await tx.configuration?.deleteMany({});
   console.log('🧹 Base de datos limpiada');
 }
 
 /**
  * Crea usuarios de prueba (profesionales y pacientes)
  */
-async function seedUsers(tx: PrismaClient) {
+async function seedUsers(tx: PrismaClient): Promise<{ professionals: User[]; patients: User[] }> {
   const now = new Date();
 
   // Datos de profesionales de prueba
@@ -109,21 +120,60 @@ async function seedUsers(tx: PrismaClient) {
     },
   ];
 
-  // Insertamos todos los usuarios
-  await tx.user.createMany({
-    data: [...professionalData, ...patientData],
-  });
+  // En lugar de usar createMany, creamos cada usuario individualmente
+  // con verificación previa para evitar errores de ID duplicado
+  const professionals: User[] = [];
+  const patients: User[] = [];
 
-  // Obtenemos usuarios insertados
-  const professionals = await tx.user.findMany({
-    where: { role: UserRole.PROFESSIONAL },
-  });
+  // Crear profesionales
+  for (const profData of professionalData) {
+    try {
+      // Verificar si ya existe un usuario con este ID
+      const existingUser = await tx.user.findUnique({
+        where: { id: profData.id },
+      });
 
-  const patients = await tx.user.findMany({
-    where: { role: UserRole.PATIENT },
-  });
+      if (!existingUser) {
+        // Crear el usuario solo si no existe
+        const prof = await tx.user.create({
+          data: profData,
+        });
+        professionals.push(prof);
+      } else {
+        // Si ya existe, usarlo tal cual
+        professionals.push(existingUser);
+      }
+    } catch (error) {
+      console.error(`Error al crear profesional ${profData.id}:`, error);
+    }
+  }
 
-  console.log(`👥 Creados ${professionals.length} profesionales y ${patients.length} pacientes`);
+  // Crear pacientes
+  for (const patData of patientData) {
+    try {
+      // Verificar si ya existe un usuario con este ID
+      const existingUser = await tx.user.findUnique({
+        where: { id: patData.id },
+      });
+
+      if (!existingUser) {
+        // Crear el usuario solo si no existe
+        const pat = await tx.user.create({
+          data: patData,
+        });
+        patients.push(pat);
+      } else {
+        // Si ya existe, usarlo tal cual
+        patients.push(existingUser);
+      }
+    } catch (error) {
+      console.error(`Error al crear paciente ${patData.id}:`, error);
+    }
+  }
+
+  console.log(
+    `👥 Creados/utilizados ${professionals.length} profesionales y ${patients.length} pacientes`,
+  );
 
   return { professionals, patients };
 }
@@ -131,7 +181,7 @@ async function seedUsers(tx: PrismaClient) {
 /**
  * Crea disponibilidades para los profesionales
  */
-async function seedAvailability(tx: PrismaClient, professionals: any[]) {
+async function seedAvailability(tx: PrismaClient, professionals: User[]): Promise<Availability[]> {
   const now = new Date();
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -183,7 +233,7 @@ async function seedAvailability(tx: PrismaClient, professionals: any[]) {
   }
 
   // Insertamos todas las disponibilidades una por una
-  const availabilities: Prisma.AvailabilityGetPayload<{}>[] = [];
+  const availabilities: Availability[] = [];
   for (const data of availabilityData) {
     const availability = await tx.availability.create({
       data,
@@ -201,15 +251,15 @@ async function seedAvailability(tx: PrismaClient, professionals: any[]) {
  */
 async function seedAppointments(
   tx: PrismaClient,
-  professionals: any[],
-  patients: any[],
-  availabilities: any[],
-) {
+  professionals: User[],
+  patients: User[],
+  availabilities: Availability[],
+): Promise<void> {
   const now = new Date();
 
   if (professionals.length > 0 && patients.length > 0 && availabilities.length > 0) {
     // Cita confirmada para pruebas
-    const confirmedAppointment = {
+    const confirmedAppointment: Prisma.AppointmentCreateInput = {
       id: TEST_IDS.APPOINTMENT.CONFIRMED,
       patient: {
         connect: { id: patients[0].id },
@@ -227,7 +277,7 @@ async function seedAppointments(
     };
 
     // Cita cancelada para pruebas
-    const cancelledAppointment = {
+    const cancelledAppointment: Prisma.AppointmentCreateInput = {
       id: TEST_IDS.APPOINTMENT.CANCELLED,
       patient: {
         connect: { id: patients.length > 1 ? patients[1].id : patients[0].id },
