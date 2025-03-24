@@ -4,28 +4,22 @@ import { PrismaAvailabilityRepository } from '../../../infrastructure/repositori
 import { AvailabilityMapper } from '../../../infrastructure/mappers/availability.mapper';
 import { AvailabilityEntity } from '../../../domain/entities/availability.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { cleanDatabaseSafely } from '../../../../../../test/utils/test-helpers';
+import { TestDataFactory } from '../../../../../../test/utils/test-data-factory';
 
 describe('PrismaAvailabilityRepository Integration Tests', () => {
   let repository: PrismaAvailabilityRepository;
   let prismaService: PrismaService;
+  let testDataFactory: TestDataFactory;
 
-  // Datos de prueba
-  const professionalId = uuidv4();
+  // Variables para almacenar IDs de prueba
+  let professionalId: string;
+  let testAvailabilityId: string;
+
+  // Crear fechas para mañana
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(0, 0, 0, 0);
-
-  const createAvailabilityEntity = () => {
-    return new AvailabilityEntity({
-      professionalId,
-      availableDate: tomorrow,
-      startTime: new Date(tomorrow.getTime() + 9 * 3600000), // 9:00 AM
-      endTime: new Date(tomorrow.getTime() + 10 * 3600000), // 10:00 AM
-      isBooked: false,
-    });
-  };
-
-  let testAvailabilityId: string;
+  tomorrow.setHours(10, 0, 0, 0);
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,37 +28,35 @@ describe('PrismaAvailabilityRepository Integration Tests', () => {
 
     repository = module.get<PrismaAvailabilityRepository>(PrismaAvailabilityRepository);
     prismaService = module.get<PrismaService>(PrismaService);
+    testDataFactory = new TestDataFactory(prismaService);
 
     // Limpiar datos existentes respetando las restricciones de clave foránea
-    await prismaService.appointment.deleteMany({});
-    await prismaService.notification.deleteMany({});
-    await prismaService.availability.deleteMany({});
-    await prismaService.user.deleteMany({});
+    await cleanDatabaseSafely(prismaService);
+    console.log('Base de datos limpiada correctamente antes de las pruebas');
 
-    // Crear un profesional de prueba en la base de datos
-    await prismaService.user.upsert({
-      where: { id: professionalId },
-      update: {},
-      create: {
-        id: professionalId,
-        authUserId: uuidv4(),
-        firstName: 'Doctor',
-        lastName: 'Prueba',
-        role: 'PROFESSIONAL',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
-  });
+    // Crear un profesional de prueba con la fábrica de datos
+    const professional = await testDataFactory.createTestProfessional('Doctor', 'Prueba');
+    professionalId = professional.id;
+    console.log(`Profesional creado con ID: ${professionalId}`);
+  }, 30000);
 
   afterAll(async () => {
     // Limpiar datos creados respetando las restricciones de clave foránea
-    await prismaService.appointment.deleteMany({});
-    await prismaService.notification.deleteMany({});
-    await prismaService.availability.deleteMany({});
-    await prismaService.user.deleteMany();
+    await cleanDatabaseSafely(prismaService);
+    console.log('Base de datos limpiada correctamente después de las pruebas');
     await prismaService.$disconnect();
-  });
+  }, 30000);
+
+  // Función auxiliar para crear una entidad de disponibilidad para pruebas
+  const createAvailabilityEntity = () => {
+    return new AvailabilityEntity({
+      professionalId,
+      availableDate: tomorrow,
+      startTime: new Date(tomorrow.getTime()),
+      endTime: new Date(tomorrow.getTime() + 3600000), // 1 hora después
+      isBooked: false,
+    });
+  };
 
   describe('save', () => {
     it('should create and return a new availability entity', async () => {
@@ -74,6 +66,7 @@ describe('PrismaAvailabilityRepository Integration Tests', () => {
       // Act
       const savedAvailability = await repository.save(newAvailability);
       testAvailabilityId = savedAvailability.id as string;
+      console.log(`Disponibilidad creada con ID: ${testAvailabilityId}`);
 
       // Assert
       expect(savedAvailability).toBeDefined();
@@ -86,6 +79,9 @@ describe('PrismaAvailabilityRepository Integration Tests', () => {
 
   describe('findById', () => {
     it('should find an availability by ID', async () => {
+      // Verificar que tenemos un ID de disponibilidad válido
+      expect(testAvailabilityId).toBeDefined();
+
       // Act
       const foundAvailability = await repository.findById(testAvailabilityId);
 
@@ -131,8 +127,10 @@ describe('PrismaAvailabilityRepository Integration Tests', () => {
     it('should find availabilities in a date range', async () => {
       // Arrange
       const startDate = new Date(tomorrow);
+      startDate.setHours(0, 0, 0, 0);
+
       const endDate = new Date(tomorrow);
-      endDate.setDate(endDate.getDate() + 1);
+      endDate.setHours(23, 59, 59, 999);
 
       // Act
       const availabilities = await repository.findByDateRange(professionalId, startDate, endDate);
@@ -140,6 +138,7 @@ describe('PrismaAvailabilityRepository Integration Tests', () => {
       // Assert
       expect(availabilities).toBeDefined();
       expect(availabilities.length).toBeGreaterThan(0);
+      expect(availabilities[0].availableDate.getDate()).toBe(tomorrow.getDate());
     });
   });
 

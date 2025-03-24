@@ -104,26 +104,17 @@ async function prepareTestDatabase() {
 
       console.log('✅ Base de datos de prueba preparada correctamente');
 
-      // Temporalmente omitimos la carga de datos para este PR
-      console.log(
-        '👍 Base de datos de prueba configurada para testing. No se cargan datos iniciales, los tests deben crear sus propios datos.',
-      );
-      
-      /* 
-      // Intento desactivado para evitar problemas de concurrencia y duplicados
-      // Los tests deben crear sus propios datos
-      console.log('🔄 Intentando cargar datos de prueba iniciales...');
+      // Intentar cargar datos de prueba
+      console.log('🔄 Cargando datos iniciales de prueba...');
       try {
-        // Importar directamente el módulo seed-test
-        const seedTest = require('./seed-test').default;
-        await seedTest();
-        console.log('✅ Datos de prueba cargados correctamente');
+        // Usar import() dinámico para cargar el módulo seed-test
+        const seedTestModule = await import('./seed-test');
+        await seedTestModule.default();
+        console.log('✅ Datos iniciales de prueba cargados correctamente');
       } catch (error) {
         console.error('⚠️ Error al cargar datos de prueba:', error);
         console.log('⚠️ Los tests deberán crear sus propios datos si es necesario.');
       }
-      */
-      
     } catch (error) {
       console.error('Error al ejecutar las migraciones:', error);
       throw error;

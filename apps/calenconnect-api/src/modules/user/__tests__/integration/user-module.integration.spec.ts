@@ -7,12 +7,13 @@ import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRole } from '../../domain/value-objects/user-role.enum';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserCommand } from '../../application/commands/create-user.command';
+import { cleanDatabaseSafely } from '../../../../../test/utils/test-helpers';
 
 describe('UserModule Integration Tests', () => {
   let moduleRef: TestingModule;
   let userService: UserService;
   let prismaService: PrismaService;
-  
+
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
       imports: [UserModule, DatabaseModule],
@@ -27,12 +28,9 @@ describe('UserModule Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    // Limpiar la base de datos en el orden correcto para respetar las restricciones de clave foránea
-    await prismaService.notification.deleteMany({});
-    await prismaService.appointment.deleteMany({});
-    await prismaService.availability.deleteMany({});
-    await prismaService.auditLog.deleteMany({});
-    await prismaService.user.deleteMany({});
+    // Limpiar la base de datos respetando las restricciones de clave foránea
+    await cleanDatabaseSafely(prismaService);
+    console.log('Base de datos limpiada correctamente antes de cada prueba');
   }, 20000);
 
   describe('createUser', () => {
@@ -73,25 +71,23 @@ describe('UserModule Integration Tests', () => {
     it('should retrieve an existing user from database', async () => {
       // Arrange - Crear un usuario para la prueba usando directamente el servicio
       const authUserId = uuidv4();
-      const command = new CreateUserCommand(
-        authUserId, 'Existing', 'User', UserRole.PATIENT
-      );
-      
+      const command = new CreateUserCommand(authUserId, 'Existing', 'User', UserRole.PATIENT);
+
       // Creamos el usuario usando el servicio en lugar de Prisma directamente
       const createdUser = await userService.createUser(command);
       expect(createdUser).toBeDefined();
       expect(createdUser.authUserId).toBe(authUserId);
-      
+
       // Guarda el ID generado para usarlo en la consulta
       const userId = createdUser.id;
-      
+
       // Act - Ahora buscamos el usuario por su ID
       const user = await userService.findUserById(userId);
 
       // Assert
       expect(user).toBeDefined();
       expect(user).not.toBeNull();
-      
+
       if (user) {
         expect(user).toBeInstanceOf(UserEntity);
         expect(user.id).toBe(userId);
@@ -112,4 +108,4 @@ describe('UserModule Integration Tests', () => {
       expect(user).toBeNull();
     }, 20000);
   });
-}); 
+});

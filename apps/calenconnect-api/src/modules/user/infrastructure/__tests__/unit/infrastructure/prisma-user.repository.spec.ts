@@ -36,7 +36,7 @@ describe('PrismaUserRepository', () => {
 
     repository = module.get<PrismaUserRepository>(PrismaUserRepository);
     userMapper = module.get<UserMapper>(UserMapper);
-    
+
     // Limpiar mocks entre pruebas
     jest.clearAllMocks();
   });
@@ -54,16 +54,17 @@ describe('PrismaUserRepository', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      
+
       mockPrismaService.user.findUnique.mockResolvedValue(prismaUser);
-      
+
       // Act
       const result = await repository.findById(userId);
-      
+
       // Assert
       expect(result).toBeInstanceOf(UserEntity);
       expect(result).not.toBeNull();
-      if (result) { // Comprobación de nulidad para TypeScript
+      if (result) {
+        // Comprobación de nulidad para TypeScript
         expect(result.id).toBe(userId);
         expect(result.firstName).toBe('Juan');
         expect(result.role).toBe(UserRole.PROFESSIONAL);
@@ -76,10 +77,10 @@ describe('PrismaUserRepository', () => {
     it('should return null when user does not exist', async () => {
       // Arrange
       mockPrismaService.user.findUnique.mockResolvedValue(null);
-      
+
       // Act
       const result = await repository.findById('nonexistent');
-      
+
       // Assert
       expect(result).toBeNull();
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
@@ -98,7 +99,7 @@ describe('PrismaUserRepository', () => {
         lastName: 'López',
         role: UserRole.PATIENT,
       });
-      
+
       const prismaUser = {
         id: '456',
         authUserId: 'auth456',
@@ -108,12 +109,12 @@ describe('PrismaUserRepository', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      
+
       mockPrismaService.user.create.mockResolvedValue(prismaUser);
-      
+
       // Act
       const result = await repository.save(userEntity);
-      
+
       // Assert
       expect(result).toBeInstanceOf(UserEntity);
       expect(result).not.toBeNull();
@@ -124,4 +125,4 @@ describe('PrismaUserRepository', () => {
       expect(mockPrismaService.user.create).toHaveBeenCalledTimes(1);
     });
   });
-}); 
+});

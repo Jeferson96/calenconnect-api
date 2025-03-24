@@ -6,7 +6,7 @@ describe('UserEntity', () => {
     it('should create a valid user entity with all properties', () => {
       // Arrange
       const userId = '123';
-      
+
       // Act
       const user = new UserEntity({
         id: userId,
@@ -15,7 +15,7 @@ describe('UserEntity', () => {
         lastName: 'Doe',
         role: UserRole.PROFESSIONAL,
       });
-      
+
       // Assert
       expect(user).toBeDefined();
       expect(user.id).toBe(userId);
@@ -24,7 +24,7 @@ describe('UserEntity', () => {
       expect(user.lastName).toBe('Doe');
       expect(user.role).toBe(UserRole.PROFESSIONAL);
     });
-    
+
     it('should allow creating user with minimal required properties and default id', () => {
       // Arrange & Act
       const user = new UserEntity({
@@ -33,7 +33,7 @@ describe('UserEntity', () => {
         lastName: 'Smith',
         role: UserRole.PATIENT,
       });
-      
+
       // Assert
       expect(user).toBeDefined();
       expect(user.id).toBe('');
@@ -42,7 +42,7 @@ describe('UserEntity', () => {
       expect(user.role).toBe(UserRole.PATIENT);
     });
   });
-  
+
   describe('fullName', () => {
     it('should return concatenated firstName and lastName', () => {
       // Arrange
@@ -53,15 +53,15 @@ describe('UserEntity', () => {
         lastName: 'González',
         role: UserRole.PATIENT,
       });
-      
+
       // Act
       const fullName = user.fullName;
-      
+
       // Assert
       expect(fullName).toBe('Carlos González');
     });
   });
-  
+
   describe('isProfessional', () => {
     it('should return true for professional users', () => {
       // Arrange
@@ -71,13 +71,13 @@ describe('UserEntity', () => {
         lastName: 'Test',
         role: UserRole.PROFESSIONAL,
       });
-      
+
       // Act & Assert
       expect(user.isProfessional()).toBe(true);
       expect(user.isPatient()).toBe(false);
     });
   });
-  
+
   describe('isPatient', () => {
     it('should return true for patient users', () => {
       // Arrange
@@ -87,7 +87,7 @@ describe('UserEntity', () => {
         lastName: 'Test',
         role: UserRole.PATIENT,
       });
-      
+
       // Act & Assert
       expect(user.isPatient()).toBe(true);
       expect(user.isProfessional()).toBe(false);

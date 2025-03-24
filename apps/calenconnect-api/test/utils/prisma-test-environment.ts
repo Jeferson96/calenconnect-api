@@ -26,14 +26,14 @@ class PrismaTestEnvironment {
     // Guardar la URL original y crear una URL para la base de datos de prueba
     const url = new URL(this.originalUrl);
     url.pathname = `/${this.dbName}`;
-    
+
     // Establecer la nueva URL para que Prisma la use
     process.env.DATABASE_URL = url.toString();
-    
+
     try {
       // Crear una base de datos temporal
       await this.prismaClient.$executeRawUnsafe(`CREATE DATABASE "${this.dbName}"`);
-      
+
       // Ejecutar migraciones en la base de datos de prueba
       execSync('npx prisma migrate deploy', {
         env: {
@@ -54,7 +54,7 @@ class PrismaTestEnvironment {
     try {
       // Cerrar conexiones
       await this.prismaClient.$disconnect();
-      
+
       // Eliminar la base de datos temporal
       const otherClient = new PrismaClient({
         datasources: {
@@ -63,10 +63,10 @@ class PrismaTestEnvironment {
           },
         },
       });
-      
+
       await otherClient.$executeRawUnsafe(`DROP DATABASE IF EXISTS "${this.dbName}" WITH (FORCE)`);
       await otherClient.$disconnect();
-      
+
       // Restaurar la URL original
       process.env.DATABASE_URL = this.originalUrl;
     } catch (error) {
@@ -90,4 +90,4 @@ class PrismaTestEnvironment {
 }
 
 // Para usar con Jest setup global
-export default PrismaTestEnvironment; 
+export default PrismaTestEnvironment;

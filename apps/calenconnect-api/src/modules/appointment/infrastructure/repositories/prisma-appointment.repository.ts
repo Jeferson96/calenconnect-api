@@ -111,7 +111,6 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
     const updateData: {
       appointmentDate?: Date;
       status?: PrismaAppointmentStatus;
-      notes?: string | null;
     } = {};
 
     if (data.appointmentDate !== undefined) {
@@ -120,10 +119,6 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
 
     if (data.status !== undefined) {
       updateData.status = data.status as unknown as PrismaAppointmentStatus;
-    }
-
-    if (data.notes !== undefined) {
-      updateData.notes = data.notes;
     }
 
     const updated = await this.prisma.appointment.update({
