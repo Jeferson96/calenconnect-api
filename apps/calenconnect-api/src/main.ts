@@ -1,30 +1,46 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@libs/config';
-import { Logger } from '@nestjs/common';
+import { AppModule } from './app.module';
+import { setupSwagger } from './swagger';
 import { HttpExceptionFilter, ResponseTransformInterceptor } from '@libs/common';
 
 async function bootstrap() {
-  const logger: Logger = new Logger('CalenConnect API');
-
   const app = await NestFactory.create(AppModule);
 
-  // Aplicar filtros e interceptores globalmente
-  app.useGlobalFilters(new HttpExceptionFilter());
+  // Obtener configuración
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('calenconnect-api.port') || 3000;
+
+  // Configurar prefijo global
+  app.setGlobalPrefix('api');
+
+  // Configurar CORS
+  app.enableCors({
+    origin: '*', // En producción, esto debería ser más restrictivo
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  });
+
+  // Configurar validación global
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Elimina propiedades no definidas en los DTOs
+      forbidNonWhitelisted: true, // Rechaza solicitudes con propiedades no definidas
+      transform: true, // Transforma automáticamente los datos a los tipos definidos
+    }),
+  );
+
+  // Configurar interceptor y filtro global
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
-  const config = app.get(ConfigService);
-  const appConfig = config.getAppConfig();
+  // Configurar Swagger
+  setupSwagger(app);
 
-  if (!appConfig) {
-    logger.error('Configuración de CalenConnect API no encontrada');
-    process.exit(1);
-  }
-
-  const PORT = appConfig.port || 3000;
-
-  await app.listen(PORT);
-
-  logger.log(`CalenConnect API está ejecutándose en el puerto ${PORT}`);
+  await app.listen(port);
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Swagger documentation is available at: http://localhost:${port}/api/docs`);
 }
+
 bootstrap();

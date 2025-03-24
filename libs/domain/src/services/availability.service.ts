@@ -74,6 +74,50 @@ export class AvailabilityService {
     return this.availabilityRepository.findAvailableSlots(professionalId, date);
   }
 
+  async deleteById(id: string): Promise<Availability> {
+    const availability = await this.findById(id);
+    if (!availability) {
+      throw new NotFoundException('Disponibilidad no encontrada');
+    }
+    return this.availabilityRepository.delete(id);
+  }
+
+  async checkAvailability(
+    professionalId: string,
+    appointmentDate: string | Date,
+  ): Promise<boolean> {
+    const date = typeof appointmentDate === 'string' ? new Date(appointmentDate) : appointmentDate;
+    const slots = await this.availabilityRepository.findAvailableSlots(professionalId, date);
+    return slots.length > 0;
+  }
+
+  async markAsBooked(professionalId: string, appointmentDate: string | Date): Promise<void> {
+    const date = typeof appointmentDate === 'string' ? new Date(appointmentDate) : appointmentDate;
+    const slots = await this.availabilityRepository.findAvailableSlots(professionalId, date);
+
+    if (slots.length === 0) {
+      throw new NotFoundException('No se encontró disponibilidad para el horario solicitado');
+    }
+
+    await this.availabilityRepository.update(slots[0].id, { isBooked: true });
+  }
+
+  async markAsAvailable(professionalId: string, appointmentDate: string): Promise<void> {
+    const date = new Date(appointmentDate);
+    const slots = await this.availabilityRepository.findByProfessionalId(professionalId);
+
+    const matchingSlots = slots.filter(
+      (slot) =>
+        new Date(slot.availableDate).toDateString() === date.toDateString() && slot.isBooked,
+    );
+
+    if (matchingSlots.length === 0) {
+      throw new NotFoundException('No se encontró disponibilidad reservada para liberar');
+    }
+
+    await this.availabilityRepository.update(matchingSlots[0].id, { isBooked: false });
+  }
+
   private validateTimeSlot(startTime: Date, endTime: Date): void {
     const start = new Date(startTime);
     const end = new Date(endTime);
