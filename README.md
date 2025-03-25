@@ -115,6 +115,36 @@ Para ejecutar este proyecto, necesitarás tener instalado:
    npm run seed
    ```
 
+### Colección de Postman y Variables de Entorno
+
+Para facilitar el desarrollo y pruebas de la API, se proporciona una colección de Postman que incluye todos los endpoints disponibles y ejemplos de uso.
+
+1. Importa la colección de Postman:
+   - Abre Postman
+   - Importa el archivo `CalenConnect.postman_collection.json` ubicado en la raíz del proyecto
+   - Importa el archivo de variables de entorno `CalenConnect.postman_environment.json`
+
+2. Configura las variables de entorno en Postman:
+   - Selecciona el ambiente "CalenConnect Local"
+   - Verifica que las siguientes variables estén configuradas:
+     - `baseUrl`: URL base de la API (por defecto: http://localhost:3000/api)
+     - `authToken`: Token de autenticación (se actualiza automáticamente al iniciar sesión)
+
+3. Variables de entorno locales:
+   El proyecto incluye un archivo `.env.example` con todas las variables necesarias:
+   ```bash
+   # Database
+   DATABASE_URL="postgresql://user:password@localhost:5432/calenconnect"
+   
+   # JWT
+   JWT_SECRET="your-secret-key"
+   JWT_EXPIRATION="1d"
+   
+   # Server
+   PORT=3000
+   NODE_ENV="development"
+   ```
+
 ### Ejecución
 
 ```bash

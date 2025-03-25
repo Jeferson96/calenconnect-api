@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "bf36f8a8-2956-4a35-b44f-46b8e94b0853",
+		"name": "CalenConnect API",
+		"description": "API para la gestión de citas, usuarios y disponibilidad en CalenConnect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7476648"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n    \"firstName\": \"Roberto\",\n    \"lastName\": \"Morales\",\n    \"role\": \"PROFESSIONAL\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Crea un nuevo usuario en el sistema.\n\n**Códigos de respuesta:**\n- 201: Usuario creado exitosamente\n- 409: El usuario ya existe con este ID de autenticación"
+					},
+					"response": [
+						{
+							"name": "Crear usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n    \"firstName\": \"Roberto\",\n    \"lastName\": \"Morales\",\n    \"role\": \"PROFESSIONAL\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "292"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"124-fqrIX3xpOfmivaLLx52cg56ElmI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:30:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Recurso creado con éxito\",\n    \"data\": {\n        \"id\": \"c7e86d8c-9422-4382-819f-7bd74cd5f80e\",\n        \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n        \"firstName\": \"Roberto\",\n        \"lastName\": \"Morales\",\n        \"fullName\": \"Roberto Morales\",\n        \"role\": \"PROFESSIONAL\"\n    },\n    \"timestamp\": \"2025-03-17T19:30:37.602Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener todos los usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Obtiene la lista completa de usuarios registrados en el sistema.\n\n**Códigos de respuesta:**\n- 200: Lista de usuarios obtenida exitosamente"
+					},
+					"response": [
+						{
+							"name": "Obtener todos los usuarios",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4060"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fdc-uJtNkt10a3mZtl7RAEPScWRn3gI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:30:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": [\n        {\n            \"id\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"authUserId\": \"efa38b02-bdd8-47f7-834e-2431871a9e33\",\n            \"firstName\": \"Ana\",\n            \"lastName\": \"Martínez\",\n            \"fullName\": \"Ana Martínez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"8c9378c6-9801-4f1f-b967-1b7f77771ade\",\n            \"authUserId\": \"0e9241df-86c4-4cca-9999-c22e8d741d0b\",\n            \"firstName\": \"Carlos\",\n            \"lastName\": \"Rodríguez\",\n            \"fullName\": \"Carlos Rodríguez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"0ed486d2-0e57-4cf8-8749-42b3863d67ad\",\n            \"authUserId\": \"51772bcd-3b43-46c7-8715-7e14a7cc4485\",\n            \"firstName\": \"Gabriela\",\n            \"lastName\": \"Medina\",\n            \"fullName\": \"Gabriela Medina\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"b3d97c26-bdd1-4fe0-a1f5-fbe54a13bea7\",\n            \"authUserId\": \"bcccb85b-15ff-4112-9660-16242fefce4c\",\n            \"firstName\": \"Javier\",\n            \"lastName\": \"Herrera\",\n            \"fullName\": \"Javier Herrera\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"975167b8-29f2-4f42-9919-144948d07f05\",\n            \"authUserId\": \"139821c9-b05a-4d63-b78f-8219a6bb36ea\",\n            \"firstName\": \"María\",\n            \"lastName\": \"Vargas\",\n            \"fullName\": \"María Vargas\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"56a56c30-18da-4c62-8868-018088a3eb4c\",\n            \"authUserId\": \"97c6ba62-dfbd-40d6-a928-3b8339d7d1c6\",\n            \"firstName\": \"Ricardo\",\n            \"lastName\": \"Sánchez\",\n            \"fullName\": \"Ricardo Sánchez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"f9680f4e-3882-4e0f-aa6a-c1df96a56b0c\",\n            \"authUserId\": \"2928d38f-b430-463f-b38d-d990baa2227e\",\n            \"firstName\": \"Patricia\",\n            \"lastName\": \"González\",\n            \"fullName\": \"Patricia González\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"75e8e486-01a1-4826-9e40-b0ba9eea1aa1\",\n            \"authUserId\": \"83ccb2e2-3d00-41e7-8ad2-f1074ca40bd5\",\n            \"firstName\": \"Andrés\",\n            \"lastName\": \"Molina\",\n            \"fullName\": \"Andrés Molina\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"df1ac009-20e3-47e1-bf54-e0f1fb7093be\",\n            \"authUserId\": \"671f1423-58fb-4bb4-9059-c3f237fa9270\",\n            \"firstName\": \"Lucía\",\n            \"lastName\": \"Jiménez\",\n            \"fullName\": \"Lucía Jiménez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"bc565d86-912f-4ebb-90e0-fdd0f4c101f5\",\n            \"authUserId\": \"31ce9a92-b4aa-4bf2-b33a-18af953e4658\",\n            \"firstName\": \"Eduardo\",\n            \"lastName\": \"Vega\",\n            \"fullName\": \"Eduardo Vega\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"a6f43a22-558e-4b4c-8626-31a0eeda3bf9\",\n            \"authUserId\": \"56baf48f-617c-449a-b7c2-70605aed7206\",\n            \"firstName\": \"Elena\",\n            \"lastName\": \"López\",\n            \"fullName\": \"Elena López\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"2d92e056-f1d7-4193-959a-d2bdfd3de922\",\n            \"authUserId\": \"f387f98a-445b-4f3b-baef-5fbb78a49d65\",\n            \"firstName\": \"Miguel\",\n            \"lastName\": \"Fernández\",\n            \"fullName\": \"Miguel Fernández\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"f71d2bcf-ef12-4c18-81f7-4d882dc15ce6\",\n            \"authUserId\": \"0cf84a2c-3079-4bff-bd3d-e6fed4707dac\",\n            \"firstName\": \"Laura\",\n            \"lastName\": \"Gómez\",\n            \"fullName\": \"Laura Gómez\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"b31c2532-f9b7-4142-a012-0f5ef412c50f\",\n            \"authUserId\": \"e39ad1ee-bfd8-4c43-9b69-dd8ce5ad2781\",\n            \"firstName\": \"Daniel\",\n            \"lastName\": \"Orrego\",\n            \"fullName\": \"Daniel Orrego\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"9d05c319-b4c7-42dd-807a-ca0b29821d49\",\n            \"authUserId\": \"7d4f5ebe-28b9-4020-af3f-214990213b84\",\n            \"firstName\": \"Sofía\",\n            \"lastName\": \"Marín\",\n            \"fullName\": \"Sofía Marín\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"7c58a06b-b07f-4150-9faf-40151ab69f39\",\n            \"authUserId\": \"723f051f-b08f-487a-9893-34dc8878375f\",\n            \"firstName\": \"Juan\",\n            \"lastName\": \"Pereira\",\n            \"fullName\": \"Juan Pereira\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"74862ec6-5e5f-47dd-a0e3-eb1f4e74a7df\",\n            \"authUserId\": \"c40dc5d6-c37f-4ca3-81ce-b07b78d565b9\",\n            \"firstName\": \"Carolina\",\n            \"lastName\": \"Duarte\",\n            \"fullName\": \"Carolina Duarte\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"45b82dec-985c-491e-b6c7-b82d4b828848\",\n            \"authUserId\": \"567b867e-0ccb-4789-8076-fd6bf20063a9\",\n            \"firstName\": \"Francisco\",\n            \"lastName\": \"Torres\",\n            \"fullName\": \"Francisco Torres\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"76cad615-9b66-4852-8baf-5595f2251fd7\",\n            \"authUserId\": \"cff8d096-59f9-4c2a-ba71-ce4752673fce\",\n            \"firstName\": \"Valentina\",\n            \"lastName\": \"Osorio\",\n            \"fullName\": \"Valentina Osorio\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"1753d722-24b6-4c79-adf7-c1d9388d64a5\",\n            \"authUserId\": \"2b519980-6129-4c91-8998-3cd9dd9d917f\",\n            \"firstName\": \"Mateo\",\n            \"lastName\": \"Rivera\",\n            \"fullName\": \"Mateo Rivera\",\n            \"role\": \"PATIENT\"\n        },\n        {\n            \"id\": \"c7e86d8c-9422-4382-819f-7bd74cd5f80e\",\n            \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n            \"firstName\": \"Roberto\",\n            \"lastName\": \"Morales\",\n            \"fullName\": \"Roberto Morales\",\n            \"role\": \"PROFESSIONAL\"\n        }\n    ],\n    \"timestamp\": \"2025-03-17T19:30:47.311Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener todos los profesionales",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/professionals",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"professionals"
+							]
+						},
+						"description": "Obtiene la lista de usuarios con rol de profesional.\n\n**Códigos de respuesta:**\n- 200: Lista de profesionales obtenida exitosamente"
+					},
+					"response": [
+						{
+							"name": "Obtener todos los profesionales",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/users/professionals",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"professionals"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2214"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8a6-/4G4FT+Mo9+ZvTkPvFz5vorF1FA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:31:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": [\n        {\n            \"id\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"authUserId\": \"efa38b02-bdd8-47f7-834e-2431871a9e33\",\n            \"firstName\": \"Ana\",\n            \"lastName\": \"Martínez\",\n            \"fullName\": \"Ana Martínez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"8c9378c6-9801-4f1f-b967-1b7f77771ade\",\n            \"authUserId\": \"0e9241df-86c4-4cca-9999-c22e8d741d0b\",\n            \"firstName\": \"Carlos\",\n            \"lastName\": \"Rodríguez\",\n            \"fullName\": \"Carlos Rodríguez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"0ed486d2-0e57-4cf8-8749-42b3863d67ad\",\n            \"authUserId\": \"51772bcd-3b43-46c7-8715-7e14a7cc4485\",\n            \"firstName\": \"Gabriela\",\n            \"lastName\": \"Medina\",\n            \"fullName\": \"Gabriela Medina\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"b3d97c26-bdd1-4fe0-a1f5-fbe54a13bea7\",\n            \"authUserId\": \"bcccb85b-15ff-4112-9660-16242fefce4c\",\n            \"firstName\": \"Javier\",\n            \"lastName\": \"Herrera\",\n            \"fullName\": \"Javier Herrera\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"975167b8-29f2-4f42-9919-144948d07f05\",\n            \"authUserId\": \"139821c9-b05a-4d63-b78f-8219a6bb36ea\",\n            \"firstName\": \"María\",\n            \"lastName\": \"Vargas\",\n            \"fullName\": \"María Vargas\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"56a56c30-18da-4c62-8868-018088a3eb4c\",\n            \"authUserId\": \"97c6ba62-dfbd-40d6-a928-3b8339d7d1c6\",\n            \"firstName\": \"Ricardo\",\n            \"lastName\": \"Sánchez\",\n            \"fullName\": \"Ricardo Sánchez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"f9680f4e-3882-4e0f-aa6a-c1df96a56b0c\",\n            \"authUserId\": \"2928d38f-b430-463f-b38d-d990baa2227e\",\n            \"firstName\": \"Patricia\",\n            \"lastName\": \"González\",\n            \"fullName\": \"Patricia González\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"75e8e486-01a1-4826-9e40-b0ba9eea1aa1\",\n            \"authUserId\": \"83ccb2e2-3d00-41e7-8ad2-f1074ca40bd5\",\n            \"firstName\": \"Andrés\",\n            \"lastName\": \"Molina\",\n            \"fullName\": \"Andrés Molina\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"df1ac009-20e3-47e1-bf54-e0f1fb7093be\",\n            \"authUserId\": \"671f1423-58fb-4bb4-9059-c3f237fa9270\",\n            \"firstName\": \"Lucía\",\n            \"lastName\": \"Jiménez\",\n            \"fullName\": \"Lucía Jiménez\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"bc565d86-912f-4ebb-90e0-fdd0f4c101f5\",\n            \"authUserId\": \"31ce9a92-b4aa-4bf2-b33a-18af953e4658\",\n            \"firstName\": \"Eduardo\",\n            \"lastName\": \"Vega\",\n            \"fullName\": \"Eduardo Vega\",\n            \"role\": \"PROFESSIONAL\"\n        },\n        {\n            \"id\": \"c7e86d8c-9422-4382-819f-7bd74cd5f80e\",\n            \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n            \"firstName\": \"Roberto\",\n            \"lastName\": \"Morales\",\n            \"fullName\": \"Roberto Morales\",\n            \"role\": \"PROFESSIONAL\"\n        }\n    ],\n    \"timestamp\": \"2025-03-17T19:31:01.457Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener todos los pacientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/patients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"patients"
+							]
+						},
+						"description": "Obtiene la lista de usuarios con rol de paciente.\n\n**Códigos de respuesta:**\n- 200: Lista de pacientes obtenida exitosamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Obtiene la información de un usuario específico por su ID.\n\n**Parámetros:**\n- id (path): ID del usuario a consultar\n\n**Códigos de respuesta:**\n- 200: Usuario encontrado\n- 404: Usuario no encontrado"
+					},
+					"response": [
+						{
+							"name": "Obtener usuario por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "298"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12a-272Kb4P/Pg6o5vba5xsmx5yc5OM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:31:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": {\n        \"id\": \"c7e86d8c-9422-4382-819f-7bd74cd5f80e\",\n        \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n        \"firstName\": \"Roberto\",\n        \"lastName\": \"Morales\",\n        \"fullName\": \"Roberto Morales\",\n        \"role\": \"PROFESSIONAL\"\n    },\n    \"timestamp\": \"2025-03-17T19:31:43.414Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Actualizar usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Roberto Actualizado\",\n    \"lastName\": \"Morales González\",\n    \"role\": \"PATIENT\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Actualiza la información de un usuario existente.\n\n**Parámetros:**\n- id (path): ID del usuario a actualizar\n\n**Códigos de respuesta:**\n- 200: Usuario actualizado exitosamente\n- 404: Usuario no encontrado"
+					},
+					"response": [
+						{
+							"name": "Actualizar usuario",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Roberto Actualizado\",\n    \"lastName\": \"Morales González\",\n    \"role\": \"PATIENT\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/users/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "337"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"151-wKUx5R4xBCGnvsuzzKPr8pOJLA8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:31:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": {\n        \"id\": \"c7e86d8c-9422-4382-819f-7bd74cd5f80e\",\n        \"authUserId\": \"730d2d6a-8bec-4fe0-84be-b2b463311895\",\n        \"firstName\": \"Roberto Actualizado\",\n        \"lastName\": \"Morales González\",\n        \"fullName\": \"Roberto Actualizado Morales González\",\n        \"role\": \"PATIENT\"\n    },\n    \"timestamp\": \"2025-03-17T19:31:59.303Z\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Endpoints para la gestión de usuarios"
+		},
+		{
+			"name": "Disponibilidad",
+			"item": [
+				{
+					"name": "Crear disponibilidad",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"professionalId\": \"{{professional_id}}\",\n    \"availableDate\": \"2025-12-15\",\n    \"startTime\": \"2025-03-17T09:00:00.000Z\",\n    \"endTime\": \"2025-03-17T10:00:00.000Z\",\n    \"isBooked\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/availability",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"availability"
+							]
+						},
+						"description": "Crea un nuevo horario de disponibilidad para un profesional.\n\n**Códigos de respuesta:**\n- 201: Disponibilidad creada exitosamente\n- 400: Datos de disponibilidad inválidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener disponibilidad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/availability?professionalId={{professional_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"availability"
+							],
+							"query": [
+								{
+									"key": "professionalId",
+									"value": "{{professional_id}}",
+									"description": "ID del profesional (opcional)"
+								}
+							]
+						},
+						"description": "Obtiene la lista de disponibilidad filtrada por profesional.\n\n**Parámetros:**\n- professionalId (query): ID del profesional (opcional)\n\n**Códigos de respuesta:**\n- 200: Lista de disponibilidad obtenida exitosamente"
+					},
+					"response": [
+						{
+							"name": "Obtener disponibilidad",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/availability?professionalId={{professional_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"availability"
+									],
+									"query": [
+										{
+											"key": "professionalId",
+											"value": "{{professional_id}}",
+											"description": "ID del profesional (opcional)"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17008"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4270-r9QoM2iggevcLpU2Fqeh4oSJiGI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:37:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": [\n        {\n            \"id\": \"dd0aa34a-460b-4e50-9299-00b5cf41e792\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T14:00:00.000Z\",\n            \"endTime\": \"2025-03-11T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"2c17587b-f1bf-4e27-846a-a8bfe1aeae40\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T15:00:00.000Z\",\n            \"endTime\": \"2025-03-11T16:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"2cd00a75-bf56-405c-a6fd-1fe73a9c3a57\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T16:00:00.000Z\",\n            \"endTime\": \"2025-03-11T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"ac8ff705-e853-4bfd-85a6-647f736013b6\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T17:00:00.000Z\",\n            \"endTime\": \"2025-03-11T18:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"dd4c7bc2-6ce1-4d57-a11f-98ad5510bf4d\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T18:00:00.000Z\",\n            \"endTime\": \"2025-03-11T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"6e983f02-ca4f-4056-9710-07fb48ac5d81\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T19:00:00.000Z\",\n            \"endTime\": \"2025-03-11T20:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"8083b490-0dc1-4e60-997f-b79e42a8a2df\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T20:00:00.000Z\",\n            \"endTime\": \"2025-03-11T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"25e4233e-f5c4-4040-92e9-ffedb4543687\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-11\",\n            \"startTime\": \"2025-03-11T21:00:00.000Z\",\n            \"endTime\": \"2025-03-11T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"6eab3d58-e5cf-473d-8f6b-baa770b5b231\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T14:00:00.000Z\",\n            \"endTime\": \"2025-03-12T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"2de7c8e2-8993-4093-b7fd-8429a2836770\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T15:00:00.000Z\",\n            \"endTime\": \"2025-03-12T16:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"ea567a07-503b-455f-aee5-626bb62525e8\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T16:00:00.000Z\",\n            \"endTime\": \"2025-03-12T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"ff2eb24f-8cff-4d39-9c0f-f941409f7246\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T17:00:00.000Z\",\n            \"endTime\": \"2025-03-12T18:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"bead24de-e688-48de-a888-dc5236a1c7bb\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T18:00:00.000Z\",\n            \"endTime\": \"2025-03-12T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"50c9181e-4edf-4660-a011-2c7ea6288250\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T19:00:00.000Z\",\n            \"endTime\": \"2025-03-12T20:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"22b20845-105b-4bd6-ac99-8164b9db24d7\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T20:00:00.000Z\",\n            \"endTime\": \"2025-03-12T21:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"1d6d361a-723e-4e35-b206-206ce04dc3a9\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-12\",\n            \"startTime\": \"2025-03-12T21:00:00.000Z\",\n            \"endTime\": \"2025-03-12T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"1a9c05f0-0e99-48d6-b4f2-289c6f1ff254\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T14:00:00.000Z\",\n            \"endTime\": \"2025-03-13T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"368da7b4-8cc2-4a92-bb85-26a2f06cedd4\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T15:00:00.000Z\",\n            \"endTime\": \"2025-03-13T16:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"529ce7cc-5275-4709-970a-c40aac257dce\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T16:00:00.000Z\",\n            \"endTime\": \"2025-03-13T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"cfd4c962-565a-4cbf-8dc3-af590d2b2a39\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T17:00:00.000Z\",\n            \"endTime\": \"2025-03-13T18:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"4099c225-1ecd-49d9-97db-533da49defcd\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T18:00:00.000Z\",\n            \"endTime\": \"2025-03-13T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"b2198090-f497-45ef-baf7-85655ea11bc7\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T19:00:00.000Z\",\n            \"endTime\": \"2025-03-13T20:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"5a091876-3d93-4d54-ab43-62039ea1f57d\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T20:00:00.000Z\",\n            \"endTime\": \"2025-03-13T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"f4a71def-4da4-44ed-85fc-c9e9ff32e084\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-13\",\n            \"startTime\": \"2025-03-13T21:00:00.000Z\",\n            \"endTime\": \"2025-03-13T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"45e0be40-f383-41d6-9539-213b413822c5\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T14:00:00.000Z\",\n            \"endTime\": \"2025-03-14T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"942b27a3-787d-4e82-937d-2cd54806bb46\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T15:00:00.000Z\",\n            \"endTime\": \"2025-03-14T16:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"164d9b4a-d639-4ff7-9729-ceb3827f2e2b\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T16:00:00.000Z\",\n            \"endTime\": \"2025-03-14T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"e2803849-0764-4a6f-adb3-3fb8927bfa45\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T17:00:00.000Z\",\n            \"endTime\": \"2025-03-14T18:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"39c9d9d7-e8e5-4c75-9786-ae5a449a69cf\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T18:00:00.000Z\",\n            \"endTime\": \"2025-03-14T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"2163aecb-7261-4158-a4e5-f519b7ee6c1e\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T19:00:00.000Z\",\n            \"endTime\": \"2025-03-14T20:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"8c1bc736-1396-4221-9e67-a73656f6ad43\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T20:00:00.000Z\",\n            \"endTime\": \"2025-03-14T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"a90f7b2e-eb52-40ae-b901-c4b8264387b2\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-14\",\n            \"startTime\": \"2025-03-14T21:00:00.000Z\",\n            \"endTime\": \"2025-03-14T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"13de7baf-f590-431a-a381-3fc9f794a401\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T14:00:00.000Z\",\n            \"endTime\": \"2025-03-15T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"6152ab8f-a42c-49a4-ab6a-730dd04ecf65\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T15:00:00.000Z\",\n            \"endTime\": \"2025-03-15T16:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"db9938c1-67e1-42e9-98bd-c8f53c1631c4\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T16:00:00.000Z\",\n            \"endTime\": \"2025-03-15T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"3c08ac91-1040-48e2-a356-62a567383193\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T17:00:00.000Z\",\n            \"endTime\": \"2025-03-15T18:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"9d8d78e8-45b7-421c-888c-8f7f63b7ca4d\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T18:00:00.000Z\",\n            \"endTime\": \"2025-03-15T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"afb0b4c0-2290-405d-a447-a0546aab3a15\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T19:00:00.000Z\",\n            \"endTime\": \"2025-03-15T20:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"a6106f0d-238d-41c7-9427-0310f9e6f417\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T20:00:00.000Z\",\n            \"endTime\": \"2025-03-15T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"251e6b12-3985-43fb-af93-3fa64f2b5766\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-15\",\n            \"startTime\": \"2025-03-15T21:00:00.000Z\",\n            \"endTime\": \"2025-03-15T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"ba79b8b5-81ec-4748-9762-4bcce76491c8\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T14:00:00.000Z\",\n            \"endTime\": \"2025-03-16T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"63f8c250-c69d-4582-9289-b6c9795604de\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T15:00:00.000Z\",\n            \"endTime\": \"2025-03-16T16:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"2f20e248-d82b-49a7-912c-5ba5144e76cd\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T16:00:00.000Z\",\n            \"endTime\": \"2025-03-16T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"bcce174d-0645-4cec-b78d-a16122bdc979\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T17:00:00.000Z\",\n            \"endTime\": \"2025-03-16T18:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"690c9062-3d22-44cd-9478-9e973951e427\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T18:00:00.000Z\",\n            \"endTime\": \"2025-03-16T19:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"e023fd3b-21a8-4fb4-8c3b-38f40bde9b98\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T19:00:00.000Z\",\n            \"endTime\": \"2025-03-16T20:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"a90c923b-7312-4ff4-9ec7-e523bb3bf3bc\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T20:00:00.000Z\",\n            \"endTime\": \"2025-03-16T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"6e594705-0d83-4680-a5ca-6a6d3ca3e40b\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-16\",\n            \"startTime\": \"2025-03-16T21:00:00.000Z\",\n            \"endTime\": \"2025-03-16T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"16abd138-4c65-4a78-a334-d2a0b36041ae\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T14:00:00.000Z\",\n            \"endTime\": \"2025-03-17T15:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"1b5db847-ec62-4c62-9ab2-804fc5970d7f\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T15:00:00.000Z\",\n            \"endTime\": \"2025-03-17T16:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"bf65cbfa-b346-43b6-89ac-a914f7e3896b\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T16:00:00.000Z\",\n            \"endTime\": \"2025-03-17T17:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"17855fca-97e1-4241-8cab-c2a310844a0a\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T17:00:00.000Z\",\n            \"endTime\": \"2025-03-17T18:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"b0931c14-a231-4f23-9076-521e3353c481\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T18:00:00.000Z\",\n            \"endTime\": \"2025-03-17T19:00:00.000Z\",\n            \"isBooked\": true,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"73206068-a28a-4c5a-9303-316209fe1074\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T19:00:00.000Z\",\n            \"endTime\": \"2025-03-17T20:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"74a8a619-3225-4279-9c9b-e542b41e97ed\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T20:00:00.000Z\",\n            \"endTime\": \"2025-03-17T21:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        },\n        {\n            \"id\": \"3c850f93-c5c4-442b-b098-c27ecc11cdd8\",\n            \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n            \"availableDate\": \"2025-03-17\",\n            \"startTime\": \"2025-03-17T21:00:00.000Z\",\n            \"endTime\": \"2025-03-17T22:00:00.000Z\",\n            \"isBooked\": false,\n            \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n            \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n        }\n    ],\n    \"timestamp\": \"2025-03-17T19:37:41.518Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Obtener disponibilidad por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/availability/{{availability_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"availability",
+								"{{availability_id}}"
+							]
+						},
+						"description": "Obtiene la información de un horario de disponibilidad específico por su ID.\n\n**Parámetros:**\n- id (path): ID de la disponibilidad a consultar\n\n**Códigos de respuesta:**\n- 200: Disponibilidad encontrada\n- 404: Disponibilidad no encontrada"
+					},
+					"response": [
+						{
+							"name": "Obtener disponibilidad por ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/availability/{{availability_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"availability",
+										"{{availability_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "408"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198-CfiCsbqOWKr6CrmrNpSMdiozjso\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:38:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": {\n        \"id\": \"dd0aa34a-460b-4e50-9299-00b5cf41e792\",\n        \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n        \"availableDate\": \"2025-03-11\",\n        \"startTime\": \"2025-03-11T14:00:00.000Z\",\n        \"endTime\": \"2025-03-11T15:00:00.000Z\",\n        \"isBooked\": false,\n        \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n        \"updatedAt\": \"2025-03-12T04:28:54.184Z\"\n    },\n    \"timestamp\": \"2025-03-17T19:38:24.306Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Actualizar disponibilidad",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"availableDate\": \"2025-03-18\",\n    \"startTime\": \"2025-03-18T13:00:00.000Z\",\n    \"endTime\": \"2025-03-18T16:00:00.000Z\",\n    \"isBooked\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/availability/{{availability_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"availability",
+								"{{availability_id}}"
+							]
+						},
+						"description": "Actualiza la información de un horario de disponibilidad existente.\n\n**Parámetros:**\n- id (path): ID de la disponibilidad a actualizar\n\n**Códigos de respuesta:**\n- 200: Disponibilidad actualizada exitosamente\n- 404: Disponibilidad no encontrada\n- 400: Datos de disponibilidad inválidos"
+					},
+					"response": [
+						{
+							"name": "Actualizar disponibilidad",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"availableDate\": \"2025-03-18\",\n    \"startTime\": \"2025-03-11T13:00:00.000Z\",\n    \"endTime\": \"2025-03-11T16:00:00.000Z\",\n    \"isBooked\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/availability/{{availability_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"availability",
+										"{{availability_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "407"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"197-Iuh63Jw/z3m2NGkAzpCHeXIoSOw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:40:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Operación realizada con éxito\",\n    \"data\": {\n        \"id\": \"dd0aa34a-460b-4e50-9299-00b5cf41e792\",\n        \"professionalId\": \"4c7ba716-9397-406a-92a8-642201c0ac17\",\n        \"availableDate\": \"2025-03-18\",\n        \"startTime\": \"2025-03-11T13:00:00.000Z\",\n        \"endTime\": \"2025-03-11T16:00:00.000Z\",\n        \"isBooked\": true,\n        \"createdAt\": \"2025-03-12T04:28:54.184Z\",\n        \"updatedAt\": \"2025-03-17T19:40:12.498Z\"\n    },\n    \"timestamp\": \"2025-03-17T19:40:13.163Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Eliminar disponibilidad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/availability/{{availability_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"availability",
+								"{{availability_id}}"
+							]
+						},
+						"description": "Elimina un horario de disponibilidad existente.\n\n**Parámetros:**\n- id (path): ID de la disponibilidad a eliminar\n\n**Códigos de respuesta:**\n- 204: Disponibilidad eliminada exitosamente\n- 404: Disponibilidad no encontrada"
+					},
+					"response": [
+						{
+							"name": "Eliminar disponibilidad",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/availability/{{availability_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"availability",
+										"{{availability_id}}"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"65-paFB1moxXVTa0yKODW1/d9Fr+l8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 17 Mar 2025 19:41:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Endpoints para la gestión de disponibilidad de profesionales"
+		},
+		{
+			"name": "Citas",
+			"item": [
+				{
+					"name": "Crear cita",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patientId\": \"{{patient_id}}\",\n    \"professionalId\": \"{{professional_id}}\",\n    \"availabilityId\": \"{{availability_id}}\",\n    \"appointmentDate\": \"2025-03-24T13:00:00.000Z\",\n    \"status\": \"SCHEDULED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/appointments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						},
+						"description": "Crea una nueva cita en el sistema.\n\n**Códigos de respuesta:**\n- 201: Cita creada exitosamente\n- 400: Datos de cita inválidos\n- 409: La fecha y hora seleccionada no está disponible"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener citas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/appointments?patientId={{patient_id}}&professionalId={{professional_id}}&status=SCHEDULED",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							],
+							"query": [
+								{
+									"key": "patientId",
+									"value": "{{patient_id}}",
+									"description": "ID del paciente (opcional)"
+								},
+								{
+									"key": "professionalId",
+									"value": "{{professional_id}}",
+									"description": "ID del profesional (opcional)"
+								},
+								{
+									"key": "status",
+									"value": "SCHEDULED",
+									"description": "Estado de la cita (opcional): SCHEDULED, CANCELLED, COMPLETED"
+								}
+							]
+						},
+						"description": "Obtiene la lista de citas filtrada por paciente, profesional o estado.\n\n**Parámetros:**\n- patientId (query): ID del paciente (opcional)\n- professionalId (query): ID del profesional (opcional)\n- status (query): Estado de la cita (opcional): SCHEDULED, CANCELLED, COMPLETED\n\n**Códigos de respuesta:**\n- 200: Lista de citas obtenida exitosamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener cita por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointment_id}}"
+							]
+						},
+						"description": "Obtiene la información de una cita específica por su ID.\n\n**Parámetros:**\n- id (path): ID de la cita a consultar\n\n**Códigos de respuesta:**\n- 200: Cita encontrada\n- 404: Cita no encontrada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar cita",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"appointmentDate\": \"2023-12-16T10:00:00.000Z\",\n    \"status\": \"SCHEDULED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointment_id}}"
+							]
+						},
+						"description": "Actualiza la información de una cita existente.\n\n**Parámetros:**\n- id (path): ID de la cita a actualizar\n\n**Códigos de respuesta:**\n- 200: Cita actualizada exitosamente\n- 404: Cita no encontrada\n- 400: Datos de cita inválidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Marcar cita como completada",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/appointments/{{appointment_id}}/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointment_id}}",
+								"complete"
+							]
+						},
+						"description": "Marca una cita existente como completada.\n\n**Parámetros:**\n- id (path): ID de la cita a marcar como completada\n\n**Códigos de respuesta:**\n- 200: Cita marcada como completada exitosamente\n- 404: Cita no encontrada\n- 400: No se puede completar la cita debido a su estado actual"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar cita",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/appointments/{{appointment_id}}/cancel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointment_id}}",
+								"cancel"
+							]
+						},
+						"description": "Cancela una cita existente.\n\n**Parámetros:**\n- id (path): ID de la cita a cancelar\n\n**Códigos de respuesta:**\n- 200: Cita cancelada exitosamente\n- 404: Cita no encontrada\n- 400: No se puede cancelar la cita debido a su estado actual"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar cita",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/appointments/{{appointment_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"{{appointment_id}}"
+							]
+						},
+						"description": "Elimina una cita existente.\n\n**Parámetros:**\n- id (path): ID de la cita a eliminar\n\n**Códigos de respuesta:**\n- 204: Cita eliminada exitosamente\n- 404: Cita no encontrada"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para la gestión de citas"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "b5d9e4a2-c78d-4b6f-9a3e-1f8c0d9b4a7e",
+			"type": "string"
+		},
+		{
+			"key": "professional_id",
+			"value": "b5d9e4a2-c78d-4b6f-9a3e-1f8c0d9b4a7e",
+			"type": "string"
+		},
+		{
+			"key": "patient_id",
+			"value": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+			"type": "string"
+		},
+		{
+			"key": "availability_id",
+			"value": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
+			"type": "string"
+		},
+		{
+			"key": "appointment_id",
+			"value": "d1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6",
+			"type": "string"
+		}
+	]
+}

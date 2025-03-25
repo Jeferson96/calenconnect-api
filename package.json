@@ -20,6 +20,13 @@
     "test:watch": "NODE_ENV=test jest --watch --config=jest.config.js",
     "test:cov": "NODE_ENV=test jest --coverage --config=jest.config.js",
     "test:debug": "NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:module": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/__tests__/**/*.spec.ts\"",
+    "test:module:unit": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/__tests__/unit/**/*.spec.ts\"",
+    "test:module:integration": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/__tests__/integration/**/*.spec.ts\"",
+    "test:module:e2e": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/__tests__/e2e/**/*.spec.ts\"",
+    "test:availability": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/availability/**/*.spec.ts\"",
+    "test:appointment": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/appointment/**/*.spec.ts\"",
+    "test:user": "NODE_ENV=test jest --config=jest.config.js --testMatch=\"**/user/**/*.spec.ts\"",
     "seed": "ts-node prisma/seed.ts",
     "seed:test": "NODE_ENV=test ts-node prisma/seed-test.ts",
     "db:test:prepare": "ts-node prisma/prepare-test-db.ts"
